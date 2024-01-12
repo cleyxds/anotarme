@@ -5,6 +5,9 @@ import { Text } from "../ui/atoms/Text"
 
 import { Header } from "./Header"
 
+const LANDING_GIF_URL =
+  "https://media0.giphy.com/media/LmBsnpDCuturMhtLfw/giphy.gif?cid=ecf05e472ib0lizs11nrtt7jccmrcrthzxhz9qnfzxziatoo&ep=v1_gifs_search&rid=giphy.gif&ct=g"
+
 export function Landing() {
   return (
     <Screen>
@@ -13,14 +16,14 @@ export function Landing() {
       <LandingInfoContainer>
         <LandingInfoContent>
           <Text type="V2" color="GREEN-X">
-            Escreva as suas besteiras conosco 😎
+            Escreva suas besteiras conosco 😎
           </Text>
 
           <Text>Relembre as suas ideias anotando-as aqui!</Text>
         </LandingInfoContent>
 
         <div>
-          <LandingImage src="/favicon.svg" alt="Landing page image" />
+          <LandingImage src={LANDING_GIF_URL} alt="Landing page image" />
         </div>
       </LandingInfoContainer>
     </Screen>
@@ -53,8 +56,13 @@ const LandingInfoContent = styled.div`
 const LandingImage = styled.img`
   width: 18.75rem;
   height: 18.75rem;
+  border-radius: 8px;
 
   @media (max-width: 320px) {
     background-color: var(--WHITE-I);
+  }
+
+  @media (max-width: 700px) {
+    width: auto;
   }
 `

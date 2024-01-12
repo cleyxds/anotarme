@@ -15,7 +15,7 @@ export function Header() {
       </LogoContainer>
 
       <NavigationContainer>
-        <Button>Inicio</Button>
+        <Button>Chat</Button>
 
         <Button>Compartilhar</Button>
 
