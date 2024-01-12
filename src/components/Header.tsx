@@ -1,5 +1,7 @@
 import styled from "styled-components"
 
+import { Link } from "react-router-dom"
+
 import { Button } from "../ui/atoms/Button"
 import { Text } from "../ui/atoms/Text"
 
@@ -15,7 +17,9 @@ export function Header() {
       </LogoContainer>
 
       <NavigationContainer>
-        <Button>Chat</Button>
+        <Button as={LinkButton} to="chat">
+          Chat
+        </Button>
 
         <Button>Compartilhar</Button>
 
@@ -24,6 +28,8 @@ export function Header() {
     </HeaderContainer>
   )
 }
+
+const LinkButton = styled(Link)``
 
 const LogoContainer = styled.div`
   display: flex;

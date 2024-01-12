@@ -1,5 +1,5 @@
-import { Landing } from "./components/Landing"
+import { Routes } from "./Router"
 
 export function App() {
-  return <Landing />
+  return <Routes />
 }
