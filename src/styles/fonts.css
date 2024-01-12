@@ -1,0 +1,13 @@
+@font-face {
+  font-family: "Hackernoon-v1";
+  font-style: normal;
+  src: local("Hackernoon-v1"),
+    url(../assets/fonts/HackerNoonV1-Regular.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "Hackernoon-v2";
+  font-style: normal;
+  src: local("Hackernoon-v2"),
+    url(../assets/fonts/HackerNoonV2-Regular.ttf) format("truetype");
+}
