@@ -1,59 +1,43 @@
-import { useEffect, useRef } from "react"
-
 import styled from "styled-components"
 
-import { Screen } from "../../ui/Screen"
-import { Text } from "../../ui/atoms/Text"
-import { Input } from "../../ui/atoms/Input"
+import { useChat } from "./hooks/useChat"
 
-import { generateId } from "../../utils/generateId"
+import { Screen } from "../../ui/Screen"
+
+import { ChatHeader } from "./components/ChatHeader"
+import { ChatList } from "./components/ChatList"
+import { ChatContent } from "./components/ChatContent"
 
 export function Chat() {
-  const chatId = generateId()
-
-  const chatInputRef = useRef<HTMLInputElement>(null)
-
-  useEffect(() => {
-    chatInputRef.current?.focus()
-  }, [])
-
-  useEffect(() => {
-    document.title = `Anotar me | Chat: ${chatId}`
-  }, [chatId])
-
-  async function broadcastMessage(message: string) {
-    console.log("broadcasting message", message)
-
-    return Promise.resolve(message)
-  }
-
-  async function handleSendChat(event: React.FormEvent<HTMLFormElement>) {
-    try {
-      event.preventDefault()
-
-      const chatInput = chatInputRef.current?.value
-
-      if (!chatInput) return
-
-      await broadcastMessage(chatInput)
-
-      chatInputRef.current!.value = ""
-    } catch (error) {
-      throw new Error("Something went wrong")
-    }
-  }
+  const {
+    chatId,
+    handleSelectChat,
+    selectedChat,
+    chats,
+    chatInputRef,
+    handleCloseChat,
+    profile,
+    selectedChatInfo,
+  } = useChat()
 
   return (
     <ChatScreen>
-      <ChatContainer>
-        <ChatTitle>Chat: {chatId}</ChatTitle>
+      <ChatHeader
+        chatId={chatId}
+        profile={profile}
+        selectChatData={selectedChatInfo}
+      />
 
-        <ChatContent />
+      <div className="flex h-[83%]">
+        <ChatList handleSelectChat={handleSelectChat} chats={chats} />
 
-        <ChatForm onSubmit={handleSendChat}>
-          <ChatInput ref={chatInputRef} placeholder="Jot something down" />
-        </ChatForm>
-      </ChatContainer>
+        <ChatContent
+          chat={selectedChat}
+          chatInputRef={chatInputRef}
+          handleCloseChat={handleCloseChat}
+          chatId={chatId}
+        />
+      </div>
     </ChatScreen>
   )
 }
@@ -61,36 +45,7 @@ export function Chat() {
 const ChatScreen = styled(Screen)`
   height: 100dvh;
   width: 100dvw;
-  padding: 0;
-  border: 3px solid var(--BLACK-I);
-`
-
-const ChatTitle = styled(Text)`
-  align-self: center;
-`
-
-const ChatContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  flex: 1;
-`
-
-const ChatForm = styled.form`
-  width: 100%;
-`
-
-const ChatInput = styled(Input)`
-  border: none;
-  font-family: "Hackernoon-v2";
-  letter-spacing: 2px;
-  height: 3rem;
-  width: 100%;
-`
-
-const ChatContent = styled.div`
-  flex: 1;
-  padding: 1rem 1.5rem;
-  overflow-y: auto;
-  background-color: var(--GREEN-XI);
+  padding: 2rem 2.5625rem 0;
+  background-color: var(--WHITE-I);
+  gap: 1.5rem;
 `

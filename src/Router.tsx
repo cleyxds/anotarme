@@ -2,6 +2,8 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom"
 
 import { Landing } from "./components/Landing"
 import { Chat } from "./components/Chat"
+import { Login } from "./components/Login"
+import { SignUp } from "./components/Signup"
 
 const router = createBrowserRouter([
   {
@@ -9,8 +11,16 @@ const router = createBrowserRouter([
     element: <Landing />,
   },
   {
-    path: "chat",
+    path: "/chats",
     element: <Chat />,
+  },
+  {
+    path: "/auth/login",
+    element: <Login />,
+  },
+  {
+    path: "/auth/register",
+    element: <SignUp />,
   },
 ])
 

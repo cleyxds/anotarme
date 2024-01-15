@@ -1,4 +1,4 @@
-import { SVGTypeProps } from "../types/svg"
+import { SVGTypeProps } from "../../types/svg"
 
 const SvgComponent = ({ size = 32, ...props }: SVGTypeProps) => (
   <svg

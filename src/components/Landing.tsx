@@ -4,6 +4,7 @@ import { Screen } from "../ui/Screen"
 import { Text } from "../ui/atoms/Text"
 
 import { Header } from "./Header"
+import { Footer } from "./Footer"
 
 const LANDING_GIF_URL =
   "https://media0.giphy.com/media/LmBsnpDCuturMhtLfw/giphy.gif?cid=ecf05e472ib0lizs11nrtt7jccmrcrthzxhz9qnfzxziatoo&ep=v1_gifs_search&rid=giphy.gif&ct=g"
@@ -26,6 +27,8 @@ export function Landing() {
           <LandingImage src={LANDING_GIF_URL} alt="Landing page image" />
         </div>
       </LandingInfoContainer>
+
+      <Footer />
     </Screen>
   )
 }

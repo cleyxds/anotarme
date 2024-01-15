@@ -11,3 +11,27 @@
   src: local("Hackernoon-v2"),
     url(../assets/fonts/HackerNoonV2-Regular.ttf) format("truetype");
 }
+
+@font-face {
+  font-family: "SF Pro Display Regular";
+  font-style: normal;
+  font-weight: 400;
+  src: local("SF Pro Display"),
+    url(../assets/fonts/SFPRODISPLAYREGULAR.OTF) format("opentype");
+}
+
+@font-face {
+  font-family: "SF Pro Display Medium";
+  font-style: normal;
+  font-weight: 500;
+  src: local("SF Pro Display"),
+    url(../assets/fonts/SFPRODISPLAYMEDIUM.OTF) format("opentype");
+}
+
+@font-face {
+  font-family: "SF Pro Display Bold";
+  font-style: normal;
+  font-weight: 700;
+  src: local("SF Pro Display"),
+    url(../assets/fonts/SFPRODISPLAYBOLD.OTF) format("opentype");
+}
