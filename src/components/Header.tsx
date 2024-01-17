@@ -21,7 +21,7 @@ export function Header() {
       </LogoContainer>
 
       <NavigationContainer>
-        <Button as={LinkButton} to="chats">
+        <Button as={LinkButton} to="/chats">
           Your chats
         </Button>
 

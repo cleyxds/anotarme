@@ -5,9 +5,9 @@ import { User } from "../../types/user"
 export const UserAtom = atom<User | null>({
   key: "UserAtomKey",
   default: {
-    id: "asd2o92k091k2",
+    id: "01HM53D54VXQ5B965YYM2M4VWE",
     name: "John Doe",
     image:
-      "https://media0.giphy.com/media/LmBsnpDCuturMhtLfw/giphy.gif?cid=ecf05e472ib0lizs11nrtt7jccmrcrthzxhz9qnfzxziatoo&ep=v1_gifs_search&rid=giphy.gif&ct=g",
+      "https://fastly.picsum.photos/id/22/4434/3729.jpg?hmac=fjZdkSMZJNFgsoDh8Qo5zdA_nSGUAWvKLyyqmEt2xs0",
   },
 })

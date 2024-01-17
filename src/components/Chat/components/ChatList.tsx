@@ -10,7 +10,7 @@ type ChatListProps = {
 
 export function ChatList({ chats = [], handleSelectChat }: ChatListProps) {
   return (
-    <ChatListContainer>
+    <ChatListContainer className="space-y-7">
       {chats.map((chat) => {
         const CHAT_ID = chat.id
         const CHAT_IMAGE_ALT = `${CHAT_ID} image`
@@ -41,13 +41,12 @@ export function ChatList({ chats = [], handleSelectChat }: ChatListProps) {
   )
 }
 
-const ChatListContainer = styled.aside`
+const ChatListContainer = styled.div`
   width: 33.53%;
+  height: 100%;
   padding-right: 2rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1.6875rem;
-  overflow: scroll;
+  padding-bottom: 1rem;
+  overflow-y: scroll;
 
   &::-webkit-scrollbar {
     width: 8px;
@@ -56,7 +55,8 @@ const ChatListContainer = styled.aside`
 
   /* Track */
   &::-webkit-scrollbar-track {
-    background: var(--WHITE-I);
+    background: var(--BLACK-II);
+    border-radius: 9999px;
   }
 
   /* Handle */
