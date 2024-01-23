@@ -3,10 +3,7 @@ import { useEffect, useMemo, useRef, useState } from "react"
 import { useSearchParams } from "react-router-dom"
 import { useRecoilValue } from "recoil"
 import { UserAtom } from "../../../atoms/User"
-
-import { ChatType } from "../../../types/chat"
-
-import CHAT_LIST from "../data/chats.data.json"
+import { ChatsAtom } from "../../../atoms/Chats"
 
 export function useChat() {
   const user = useRecoilValue(UserAtom)
@@ -14,13 +11,13 @@ export function useChat() {
   const [chatId, setChatId] = useState("")
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
-  const [chats] = useState<ChatType[]>(CHAT_LIST)
+  const chats = useRecoilValue(ChatsAtom)
 
   const [searchParams, setSearchParams] = useSearchParams()
   const PARAMS_CHAT_ID = searchParams.get("chatId")
 
   const selectedChat = useMemo(
-    () => chats.find((chat) => chat.id === chatId),
+    () => chats.find((chat) => chat.identifier === chatId),
     [chatId, chats]
   )
 

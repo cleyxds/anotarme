@@ -1,7 +1,9 @@
 import styled from "styled-components"
 
-import { ChatType } from "../../../types/chat"
+import { Text } from "../../../ui/atoms/Text"
 import { ChatMessage } from "./ChatContent"
+
+import { ChatType } from "../../../types/chat"
 
 type ChatListProps = {
   chats?: ChatType[]
@@ -9,19 +11,30 @@ type ChatListProps = {
 }
 
 export function ChatList({ chats = [], handleSelectChat }: ChatListProps) {
+  const NO_CHATS = !chats?.length
+
+  if (NO_CHATS) {
+    return <ChatListSkeleton />
+  }
+
+  const reverse = [...chats]?.reverse?.()
+
   return (
-    <ChatListContainer className="space-y-7">
-      {chats.map((chat) => {
-        const CHAT_ID = chat.id
+    <ChatListContainer className="pt-10 space-y-7">
+      {reverse.map((chat) => {
+        const CHAT_ID = chat.identifier
         const CHAT_IMAGE_ALT = `${CHAT_ID} image`
         const CHAT_NAME = chat.name
-        const LAST_MESSAGE = chat.messages[chat.messages.length - 1].text
-        const CHAT_IMAGE = chat.user.image
+        const CHAT_MESSAGES = chat.messages
+        const CHAT_IMAGE = chat.image
+
+        const HAS_LASTMESSAGE = !!CHAT_MESSAGES?.length
+        const LAST_MESSAGE = CHAT_MESSAGES?.[chat.messages.length - 1]?.text
 
         return (
           <ChatCardContainer
             onClick={() => handleSelectChat(CHAT_ID)}
-            key={chat.id}
+            key={CHAT_ID}
           >
             <ChatImage src={CHAT_IMAGE} alt={CHAT_IMAGE_ALT} />
 
@@ -30,13 +43,25 @@ export function ChatList({ chats = [], handleSelectChat }: ChatListProps) {
                 {CHAT_NAME}
               </ChatName>
 
-              <LastMessage size="small" type="V2" color="GREEN-VI" as="h3">
-                {LAST_MESSAGE}
-              </LastMessage>
+              {HAS_LASTMESSAGE && (
+                <LastMessage size="small" type="V2" color="GREEN-VI" as="h3">
+                  {LAST_MESSAGE}
+                </LastMessage>
+              )}
             </div>
           </ChatCardContainer>
         )
       })}
+    </ChatListContainer>
+  )
+}
+
+function ChatListSkeleton() {
+  return (
+    <ChatListContainer className="space-y-7 flex justify-center items-center">
+      <Text size="small" type="V2" color="GREEN-VI" as="h2">
+        No Chats
+      </Text>
     </ChatListContainer>
   )
 }

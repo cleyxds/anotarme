@@ -1,16 +1,18 @@
 import styled from "styled-components"
 
+import { formatDistanceToNow } from "date-fns"
+
 import { Input } from "../../../ui/atoms/Input"
 import { Button } from "../../../ui/atoms/Button"
+import { Text } from "../../../ui/atoms/Text"
 
 import { ChatIdProps, ChatType } from "../../../types/chat"
-import { formatDistanceToNow } from "date-fns"
-import { Text } from "../../../ui/atoms/Text"
 
 type ChatContentProps = {
   chatInputRef: React.RefObject<HTMLInputElement>
   chat?: ChatType
   handleCloseChat: () => void
+  handleSendMessage: (chatId: string, message: string) => Promise<void>
 } & ChatIdProps
 
 export const ChatMessage = styled(Text)``
@@ -19,14 +21,9 @@ export function ChatContent({
   chat,
   chatInputRef,
   handleCloseChat,
+  handleSendMessage,
   chatId,
 }: ChatContentProps) {
-  async function broadcastMessage(chatId: string, message: string) {
-    console.log(`broadcasting message to chatId ${chatId}`, message)
-
-    return Promise.resolve(message)
-  }
-
   async function handleSendChat(event: React.FormEvent<HTMLFormElement>) {
     try {
       event.preventDefault()
@@ -35,7 +32,7 @@ export function ChatContent({
 
       if (!chatInput || !chatId) return
 
-      await broadcastMessage(chatId, chatInput)
+      await handleSendMessage(chatId, chatInput)
 
       chatInputRef.current!.value = ""
     } catch (error) {
@@ -57,18 +54,18 @@ export function ChatContent({
 
       <div className="flex flex-1 flex-col text-[var(--BLACK-I)] pr-[12%]">
         {chat?.messages.map((message) => {
+          const MESSAGE_ID = message.id
           const MESSAGE_TIMESTAMP = formatDistanceToNow(
             new Date(message.timestamp)
           )
 
           return (
-            <div key={message.id}>
+            <div key={MESSAGE_ID}>
               <ChatMessage
                 size="small"
                 type="SFPROBOLD"
                 color="GREEN-V"
                 as="span"
-                capitalize
               >
                 {MESSAGE_TIMESTAMP} -
               </ChatMessage>{" "}
@@ -84,11 +81,26 @@ export function ChatContent({
         className="flex items-center text-[var(--BLACK-I)] gap-4"
         onSubmit={handleSendChat}
       >
-        <ChatInput placeholder="Jot something down" ref={chatInputRef} />
+        <ChatInput
+          id="chat-input"
+          name="chat-input"
+          placeholder="Jot something down"
+          ref={chatInputRef}
+        />
 
         <button type="submit">Send</button>
       </form>
     </ContentContainer>
+  )
+}
+
+function NoContent() {
+  return (
+    <div className="flex flex-1 justify-center items-center">
+      <ChatMessage size="small" color="BLACK-I" type="V2" as="h1">
+        No content just yet, choose a chat.
+      </ChatMessage>
+    </div>
   )
 }
 
@@ -117,13 +129,3 @@ const CloseChat = styled(Button)`
   right: 0;
   top: 0;
 `
-
-function NoContent() {
-  return (
-    <div className="flex flex-1 justify-center items-center">
-      <ChatMessage size="small" color="BLACK-I" type="V2" as="h1">
-        No content just yet, choose a chat.
-      </ChatMessage>
-    </div>
-  )
-}
