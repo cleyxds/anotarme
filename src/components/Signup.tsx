@@ -20,10 +20,10 @@ export function SignUp() {
     if (!PARAMS_TOKEN) return
 
     getMe(PARAMS_TOKEN)
-      .then((data) => {
+      .then(() => {
         navigate("/chats")
       })
-      .catch((error) => {
+      .catch(() => {
         navigate("/")
       })
   }, [PARAMS_TOKEN, navigate])

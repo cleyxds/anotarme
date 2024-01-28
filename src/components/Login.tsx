@@ -1,11 +1,10 @@
-import { FormEvent, useEffect } from "react"
+import { useEffect } from "react"
 
 import styled from "styled-components"
 
 import { Link, useNavigate, useSearchParams } from "react-router-dom"
 
 import { Screen } from "../ui/Screen"
-import { Input } from "../ui/atoms/Input"
 import { Button } from "../ui/atoms/Button"
 import { Footer } from "./Footer"
 import { verifyToken } from "../services/user"

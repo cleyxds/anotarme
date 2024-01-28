@@ -1,12 +1,13 @@
 import styled from "styled-components"
 
 export function Footer() {
+  return null
   return <FooterContainer>Hello</FooterContainer>
 }
 
 const FooterContainer = styled.footer`
   background-color: var(--BLACK-I);
-  color: white;
+  color: var(--WHITE-I);
   min-height: 3rem;
 
   display: flex;
