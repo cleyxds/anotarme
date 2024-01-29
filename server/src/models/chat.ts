@@ -1,6 +1,4 @@
-import redis from "redis-om"
-
-const { Schema } = redis
+import { Schema } from "redis-om"
 
 export const ChatSchema = new Schema(
   "Chat",
