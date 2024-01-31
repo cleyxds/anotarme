@@ -121,6 +121,7 @@ const handleSendMessage = (socket: Socket, chatsRepository: Repository) => {
 
     const chats = await getAllChats(chatsRepository)
 
+    socket.broadcast.emit(CHATS_RECEIVED, chats)
     socket.emit(CHATS_RECEIVED, chats)
   })
 }
