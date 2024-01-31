@@ -21,8 +21,6 @@ export function Login() {
   useEffect(() => {
     if (!PARAMS_TOKEN) return
 
-    console.log("PARAMS_TOKEN", PARAMS_TOKEN)
-
     verifyToken(PARAMS_TOKEN)
       .then(() => navigate("/chats"))
       .catch(() => navigate("/"))
