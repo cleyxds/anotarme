@@ -12,6 +12,7 @@ export const ChatSchema = new Schema(
     image: { type: "string" },
     messages: { type: "string[]" },
     members: { type: "string[]" },
+    hidden: { type: "boolean" },
   },
   {
     dataStructure: "JSON",

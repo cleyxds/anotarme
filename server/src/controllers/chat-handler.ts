@@ -42,6 +42,7 @@ const handleCreateChat = (socket: Socket, chatsRepository: Repository) => {
         image: "https://picsum.photos/200",
         messages: [],
         members: [owner],
+        hidden: false,
       }
 
       const createdChat = await chatsRepository.save(chat)
@@ -135,6 +136,8 @@ async function getAllChats(chatsRepository: Repository) {
 
   const chats = await chatsRepository
     .search()
+    .where("hidden")
+    .equal(false)
     .return.all()
     .then(parseAllMessages)
 
