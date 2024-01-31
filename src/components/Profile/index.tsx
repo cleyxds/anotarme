@@ -1,11 +1,12 @@
 import styled from "styled-components"
 
+import { useProfile } from "./hooks/useProfile"
+
 import { Screen } from "../../ui/Screen"
+import { Text } from "../../ui/atoms/Text"
 import { Header } from "../Header"
 import { Footer } from "../Footer"
-import { Text } from "../../ui/atoms/Text"
-
-import { useProfile } from "./hooks/useProfile"
+import { ArchivedChatsModal } from "./ArchivedChatsModal"
 
 export function Profile() {
   const { profile } = useProfile()
@@ -16,12 +17,16 @@ export function Profile() {
     <ProfileScreen>
       <Header />
 
-      <ProfileContainer>
+      <UserProfileContainer>
         <ProfileImage src={profile.image} alt={PROFILE_IMAGE_ALT} />
 
         <Text size="small" type="V2">
           {profile.name}
         </Text>
+      </UserProfileContainer>
+
+      <ProfileContainer>
+        <ArchivedChatsModal />
       </ProfileContainer>
 
       <Footer />
@@ -36,6 +41,9 @@ const ProfileScreen = styled(Screen)`
 
 const ProfileContainer = styled.div`
   padding: 0 4rem;
+`
+
+const UserProfileContainer = styled(ProfileContainer)`
   display: flex;
   align-items: center;
   gap: 1rem;
