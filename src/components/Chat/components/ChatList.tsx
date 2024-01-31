@@ -1,27 +1,87 @@
 import styled from "styled-components"
 
-import { Text } from "../../../ui/atoms/Text"
 import { ChatMessage } from "./ChatContent"
+import { MobileChatList } from "./MobileChatList"
 
 import { ChatType } from "../../../types/chat"
+import { ChatListSkeleton } from "./ChatListSkeleton"
 
 type ChatListProps = {
   chats?: ChatType[]
+  chat?: ChatType
   handleSelectChat: (chatId: string) => void
+  handleSendMessage: (chatId: string, message: string) => void
+  handleCloseChat: () => void
+  chatId: string
 }
 
-export function ChatList({ chats = [], handleSelectChat }: ChatListProps) {
+export const ChatListContainer = styled.div`
+  width: 33.53%;
+  height: 100%;
+  padding-right: 2rem;
+  padding-bottom: 1rem;
+  overflow-y: scroll;
+
+  @media (max-width: 1336px) {
+    width: 33.63%;
+  }
+
+  @media (max-width: 668px) {
+    width: 100%;
+    padding-right: 0 !important;
+    overflow-y: auto;
+    padding-top: 0 !important;
+  }
+
+  &::-webkit-scrollbar {
+    width: 8px;
+    border-radius: 9999px;
+  }
+
+  /* Track */
+  &::-webkit-scrollbar-track {
+    background: var(--BLACK-II);
+    border-radius: 9999px;
+  }
+
+  /* Handle */
+  &::-webkit-scrollbar-thumb {
+    background: var(--GREEN-IX);
+    border-radius: 9999px;
+  }
+`
+
+export function ChatList({
+  chats,
+  handleSelectChat,
+  chat,
+  handleSendMessage,
+  handleCloseChat,
+  chatId,
+}: ChatListProps) {
   const NO_CHATS = !chats?.length
 
   if (NO_CHATS) {
     return <ChatListSkeleton />
   }
 
-  const reverse = [...chats]?.reverse?.()
+  const foundMessages = chat?.messages?.length
+  const isMobile = window.innerWidth <= 668
+
+  if (foundMessages && isMobile) {
+    return (
+      <MobileChatList
+        chat={chat}
+        handleCloseChat={handleCloseChat}
+        chatId={chatId}
+        handleSendMessage={handleSendMessage}
+      />
+    )
+  }
 
   return (
     <ChatListContainer className="pt-10 space-y-7">
-      {reverse.map((chat) => {
+      {chats.map((chat) => {
         const CHAT_ID = chat.identifier
         const CHAT_IMAGE_ALT = `${CHAT_ID} image`
         const CHAT_NAME = chat.name
@@ -55,41 +115,6 @@ export function ChatList({ chats = [], handleSelectChat }: ChatListProps) {
     </ChatListContainer>
   )
 }
-
-function ChatListSkeleton() {
-  return (
-    <ChatListContainer className="space-y-7 flex justify-center items-center">
-      <Text size="small" type="V2" color="GREEN-VI" as="h2">
-        No Chats
-      </Text>
-    </ChatListContainer>
-  )
-}
-
-const ChatListContainer = styled.div`
-  width: 33.53%;
-  height: 100%;
-  padding-right: 2rem;
-  padding-bottom: 1rem;
-  overflow-y: scroll;
-
-  &::-webkit-scrollbar {
-    width: 8px;
-    border-radius: 9999px;
-  }
-
-  /* Track */
-  &::-webkit-scrollbar-track {
-    background: var(--BLACK-II);
-    border-radius: 9999px;
-  }
-
-  /* Handle */
-  &::-webkit-scrollbar-thumb {
-    background: var(--GREEN-IX);
-    border-radius: 9999px;
-  }
-`
 
 const ChatCardContainer = styled.div`
   position: relative;

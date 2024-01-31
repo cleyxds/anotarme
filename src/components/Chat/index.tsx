@@ -19,11 +19,11 @@ export function Chat() {
     chatId,
     handleSelectChat,
     selectedChat,
-    chats,
     chatInputRef,
     handleCloseChat,
     profile,
     selectedChatInfo,
+    reversedChats,
   } = useChat()
 
   return (
@@ -34,10 +34,17 @@ export function Chat() {
         selectChatData={selectedChatInfo}
       />
 
-      <div className="flex h-[83%] relative">
+      <ChatListContainer>
         <CreateChatForm handleCreateChat={handleCreateChat} />
 
-        <ChatList handleSelectChat={handleSelectChat} chats={chats} />
+        <ChatList
+          handleSelectChat={handleSelectChat}
+          chats={reversedChats}
+          chat={selectedChat}
+          handleCloseChat={handleCloseChat}
+          handleSendMessage={handleSendMessage}
+          chatId={chatId}
+        />
 
         <ChatContent
           chat={selectedChat}
@@ -46,7 +53,7 @@ export function Chat() {
           handleSendMessage={handleSendMessage}
           chatId={chatId}
         />
-      </div>
+      </ChatListContainer>
     </ChatScreen>
   )
 }
@@ -72,14 +79,14 @@ function CreateChatForm({
   )
 
   return (
-    <form
+    <CreateChatFormContainer
       className="absolute top-0 z-50 flex items-center gap-4"
       onSubmit={handleFormSubmit}
     >
       <Input id="chat-name" required name="chat-name" placeholder="Chat name" />
 
       <Button type="submit">Create chat</Button>
-    </form>
+    </CreateChatFormContainer>
   )
 }
 
@@ -89,4 +96,28 @@ const ChatScreen = styled(Screen)`
   padding: 2rem 2.5625rem 0;
   background-color: var(--WHITE-I);
   gap: 1.5rem;
+
+  @media (max-width: 668px) {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+`
+
+const ChatListContainer = styled.div`
+  position: relative;
+  display: flex;
+  height: 83%;
+`
+
+const CreateChatFormContainer = styled.form`
+  position: absolute;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  @media (max-width: 1406px) {
+    display: none;
+  }
 `

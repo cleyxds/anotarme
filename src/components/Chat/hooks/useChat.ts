@@ -21,10 +21,14 @@ export function useChat() {
     [chatId, chats]
   )
 
+  const reversedChats = useMemo(() => [...chats].reverse(), [chats])
+
   useEffect(() => {
     if (!PARAMS_CHAT_ID) return
 
     handleSelectChat(PARAMS_CHAT_ID)
+
+    // No need to update the dependency array
   }, [PARAMS_CHAT_ID])
 
   const chatInputRef = useRef<HTMLInputElement>(null)
@@ -73,7 +77,7 @@ export function useChat() {
     handleSelectChat,
     handleCloseChat,
     selectedChat,
-    chats,
+    reversedChats,
     chatInputRef,
     profile,
     selectedChatInfo,

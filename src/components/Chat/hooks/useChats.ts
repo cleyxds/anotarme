@@ -8,7 +8,7 @@ import { ChatsAtom } from "../../../atoms/Chats"
 
 import { ChatType } from "../../../types/chat"
 
-const SOCKET_URL = "http://localhost:3434"
+const SOCKET_URL = "http://192.168.1.103:3434"
 
 function initializeSocket() {
   return socketIOClient(SOCKET_URL, {

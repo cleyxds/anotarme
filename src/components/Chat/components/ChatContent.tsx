@@ -17,6 +17,23 @@ type ChatContentProps = {
 
 export const ChatMessage = styled(Text)``
 
+export const ChatInput = styled(Input)`
+  border: none;
+  color: var(--WHITE-I);
+  font-family: "Hackernoon-v2";
+  letter-spacing: 2px;
+  border-radius: 8px;
+  height: 3rem;
+  width: 100%;
+  background-color: var(--BLACK-I);
+`
+
+export const CloseChat = styled(Button)`
+  position: absolute;
+  right: 0;
+  top: 0;
+`
+
 export function ChatContent({
   chat,
   chatInputRef,
@@ -104,17 +121,6 @@ function NoContent() {
   )
 }
 
-const ChatInput = styled(Input)`
-  border: none;
-  color: var(--WHITE-I);
-  font-family: "Hackernoon-v2";
-  letter-spacing: 2px;
-  border-radius: 8px;
-  height: 3rem;
-  width: 100%;
-  background-color: var(--BLACK-I);
-`
-
 const ContentContainer = styled.div`
   position: relative;
   padding-left: calc(2rem - 8px);
@@ -122,10 +128,8 @@ const ContentContainer = styled.div`
   flex: 1;
   flex-direction: column;
   padding-bottom: 1rem;
-`
 
-const CloseChat = styled(Button)`
-  position: absolute;
-  right: 0;
-  top: 0;
+  @media (max-width: 668px) {
+    display: none;
+  }
 `

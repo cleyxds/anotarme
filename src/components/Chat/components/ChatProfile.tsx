@@ -46,6 +46,10 @@ const ChatProfileContainer = styled.nav`
   display: flex;
   padding: 1rem 2rem;
   width: 33%;
+
+  @media (max-width: 668px) {
+    width: 100%;
+  }
 `
 
 const ChatProfileLink = styled.a`
@@ -58,10 +62,18 @@ const ChatProfileLink = styled.a`
 const ChatTitle = styled(Text)`
   align-self: center;
   font-size: 1.25rem;
+
+  @media (max-width: 1153px) {
+    font-size: 1rem;
+  }
 `
 
 const ChatProfileMe = styled.a`
   display: flex;
   align-items: center;
   justify-content: center;
+
+  @media (max-width: 1071px) {
+    display: none;
+  }
 `

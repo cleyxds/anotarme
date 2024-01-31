@@ -36,4 +36,8 @@ const ChatIndicatorContainer = styled.div`
   padding: 1rem 2rem;
   gap: 1rem;
   align-items: center;
+
+  @media (max-width: 668px) {
+    display: none;
+  }
 `

@@ -2,6 +2,7 @@ import styled from "styled-components"
 
 import { ChatProfile } from "./ChatProfile"
 import { ChatIndicator } from "./ChatIndicator"
+
 import { ChatIdProps } from "../../../types/chat"
 
 type SelectedChatInfo = {
@@ -46,4 +47,8 @@ const ChatProfileVerticalBar = styled.div`
   height: 100%;
   width: 7px;
   background-color: var(--GREEN-IX);
+
+  @media (max-width: 1152px) {
+    display: none;
+  }
 `
