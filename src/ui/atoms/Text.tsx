@@ -17,6 +17,9 @@ type ColorPalette =
   | "GREEN-XI"
   | "GREEN-XII"
   | "BLACK-I"
+  | "BLACK-II"
+  | "BLACK-III"
+  | "WHITE-I"
 
 type TextSizes = "smallest" | "small" | "medium" | "large"
 
