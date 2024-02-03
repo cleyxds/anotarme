@@ -1,8 +1,12 @@
 import styled from "styled-components"
 
+import { useRecoilValue } from "recoil"
+import { AuthAtom } from "../../../atoms/Auth"
+
 import { Text } from "../../../ui/atoms/Text"
 import { ChatMessage } from "./ChatContent"
 import { ChatHeaderProps } from "./ChatHeader"
+import { LinkButton } from "../../LinkButton"
 
 import Logo from "../../../assets/icons/Logo"
 import UserIcon from "../../../assets/icons/UserIcon"
@@ -12,9 +16,14 @@ export const ChatProfileImage = styled.img`
   border: 1px solid var(--GREEN-IX);
   width: 3rem;
   height: 3rem;
+  object-fit: cover;
 `
 
 export function ChatProfile({ profile }: ChatHeaderProps) {
+  const auth = useRecoilValue(AuthAtom)
+
+  const SHOULD_LOGIN = !auth?.isAuthenticated
+
   const PROFILE_ID = profile?.id
   const PROFILE_IMAGE = profile?.image
   const PROFILE_LINK = `/profile/${PROFILE_ID}`
@@ -27,20 +36,29 @@ export function ChatProfile({ profile }: ChatHeaderProps) {
         <ChatTitle>Anotar me</ChatTitle>
       </ChatProfileLink>
 
-      <ChatProfileMe href={PROFILE_LINK}>
-        <div className="gap-1 flex items-center -rotate-90">
-          <ChatMessage size="smallest" type="V1" color="GREEN-VI" as="span">
-            Perfil
-          </ChatMessage>
+      {PROFILE_ID && (
+        <ChatProfileMe href={PROFILE_LINK}>
+          <div className="gap-1 flex items-center -rotate-90">
+            <ChatMessage size="smallest" type="V1" color="GREEN-VI" as="span">
+              Perfil
+            </ChatMessage>
 
-          <UserIcon size={16} />
-        </div>
+            <UserIcon size={16} />
+          </div>
 
-        <ChatProfileImage src={PROFILE_IMAGE} alt="Profile image" />
-      </ChatProfileMe>
+          <ChatProfileImage src={PROFILE_IMAGE} alt="Profile image" />
+        </ChatProfileMe>
+      )}
+
+      {SHOULD_LOGIN && <LoginButton to="/auth/login">Login!</LoginButton>}
     </ChatProfileContainer>
   )
 }
+
+const LoginButton = styled(LinkButton)`
+  height: fit-content;
+  align-self: center;
+`
 
 const ChatProfileContainer = styled.nav`
   display: flex;

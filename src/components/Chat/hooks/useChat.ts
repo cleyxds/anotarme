@@ -1,6 +1,7 @@
-import { useEffect, useMemo, useRef, useState } from "react"
+import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 
 import { useSearchParams } from "react-router-dom"
+
 import { useRecoilValue } from "recoil"
 import { UserAtom } from "../../../atoms/User"
 import { ChatsAtom } from "../../../atoms/Chats"
@@ -8,9 +9,9 @@ import { ChatsAtom } from "../../../atoms/Chats"
 export function useChat() {
   const user = useRecoilValue(UserAtom)
 
+  const chatInputRef = useRef<HTMLInputElement>(null)
   const [chatId, setChatId] = useState("")
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
+  const [informationModalOpen, setInformationModalOpen] = useState(false)
   const chats = useRecoilValue(ChatsAtom)
 
   const [searchParams, setSearchParams] = useSearchParams()
@@ -19,6 +20,15 @@ export function useChat() {
   const selectedChat = useMemo(
     () => chats.find((chat) => chat.identifier === chatId),
     [chatId, chats]
+  )
+
+  const selectedChatInfo = useMemo(
+    () => ({
+      name: selectedChat?.name,
+      image: selectedChat?.image,
+      members: selectedChat?.members,
+    }),
+    [selectedChat?.image, selectedChat?.members, selectedChat?.name]
   )
 
   const reversedChats = useMemo(() => [...chats].reverse(), [chats])
@@ -31,18 +41,34 @@ export function useChat() {
     // No need to update the dependency array
   }, [PARAMS_CHAT_ID])
 
-  const chatInputRef = useRef<HTMLInputElement>(null)
-
   useEffect(() => {
     chatInputRef.current?.focus()
   }, [])
 
   useEffect(() => {
-    document.title = `Anotar me | Chat: ${chatId}`
-  }, [chatId])
+    if (!selectedChatInfo.name) {
+      document.title = "Anotar me | Chat"
+
+      return
+    }
+
+    document.title = `Anotar me | Chat: ${selectedChatInfo.name}`
+  }, [selectedChatInfo.name])
+
+  const isChatOwnerOrMember = useCallback(
+    (chatId: string) => chats.map((chat) => chat.identifier)?.includes(chatId),
+    [chats]
+  )
 
   function handleSelectChat(chatId: string) {
     setSearchParams({ chatId })
+
+    if (!isChatOwnerOrMember(chatId)) {
+      setInformationModalOpen(true)
+
+      return
+    }
+
     setChatId(chatId)
 
     // chatInputRef.current?.focus()
@@ -55,22 +81,18 @@ export function useChat() {
     setChatId("")
   }
 
-  const profile = useMemo(
-    () => ({
-      id: user?.id,
-      image: user?.image,
-    }),
-    [user?.id, user?.image]
-  )
+  const profile = useMemo(() => {
+    if (!user?.id) return null
 
-  const selectedChatInfo = useMemo(
-    () => ({
-      name: selectedChat?.name,
-      image: selectedChat?.image,
-      members: selectedChat?.members,
-    }),
-    [selectedChat?.image, selectedChat?.members, selectedChat?.name]
-  )
+    const USER_IMAGE = user?.profile.avatar_url
+
+    const image = USER_IMAGE ? USER_IMAGE : "/DefaultUserImage.png"
+
+    return {
+      id: user?.id,
+      image,
+    }
+  }, [user?.id, user?.profile.avatar_url])
 
   return {
     chatId,
@@ -81,5 +103,6 @@ export function useChat() {
     chatInputRef,
     profile,
     selectedChatInfo,
+    informationModalOpen,
   }
 }

@@ -18,7 +18,7 @@ type ProfileDataProps = {
 
 export type ChatHeaderProps = {
   selectChatData?: SelectedChatInfo
-  profile?: ProfileDataProps
+  profile?: ProfileDataProps | null
 } & ChatIdProps
 
 export function ChatHeader({
