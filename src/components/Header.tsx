@@ -1,14 +1,64 @@
+import { useMemo } from "react"
+
 import styled from "styled-components"
 
-import { Link } from "react-router-dom"
+import { useAuthentication } from "../hooks/useAuthentication"
+import { useRecoilValue } from "recoil"
+import { AuthAtom } from "../atoms/Auth"
 
 import { Button } from "../ui/atoms/Button"
 import { Text } from "../ui/atoms/Text"
 
-import Logo from "../assets/icons/Logo"
+import { LinkButton } from "./LinkButton"
 
-export function Header() {
-  async function handleShare() {
+import Logo from "../assets/icons/Logo"
+import { UserAtom } from "../atoms/User"
+
+type HeaderProps = {
+  preset?: "DEFAULT" | "PROFILE"
+}
+
+type Presets = {
+  [key: string]: {
+    logout: boolean | undefined
+    account: boolean | undefined
+  }
+}
+
+const shareFeatureDisabled = !window.isSecureContext
+
+export function Header({ preset = "DEFAULT" }: HeaderProps) {
+  const user = useRecoilValue(UserAtom)
+  const userId = user?.id
+  const auth = useRecoilValue(AuthAtom)
+  const isAuthenticated = auth?.isAuthenticated
+
+  const { logout } = useAuthentication()
+
+  const PRESETS: Presets = useMemo(() => {
+    return {
+      DEFAULT: {
+        logout: false,
+        account: true,
+      },
+      PROFILE: {
+        logout: auth?.isAuthenticated,
+        account: false,
+      },
+    }
+  }, [auth?.isAuthenticated])
+
+  const selectedPreset = PRESETS[preset]
+  const YOUR_ACCOUNT_LINK = isAuthenticated
+    ? `/profile/${userId}`
+    : "/auth/login"
+
+  const handleShare = async () => {
+    if (shareFeatureDisabled) {
+      alert("This feature is only available in secure context")
+      return
+    }
+
     await navigator.clipboard.writeText(window.location.href)
   }
 
@@ -21,21 +71,23 @@ export function Header() {
       </LogoContainer>
 
       <NavigationContainer>
-        <Button as={LinkButton} to="/chats">
-          Your chats
-        </Button>
+        {selectedPreset.logout && (
+          <LinkButton to="/" onClick={logout}>
+            Sair
+          </LinkButton>
+        )}
+
+        <LinkButton to="/chats">Seus chats</LinkButton>
 
         <Button onClick={handleShare}>Compartilhar</Button>
 
-        <Button as={LinkButton} to="/auth/login">
-          Sua conta
-        </Button>
+        {selectedPreset.account && (
+          <LinkButton to={YOUR_ACCOUNT_LINK}>Sua conta</LinkButton>
+        )}
       </NavigationContainer>
     </HeaderContainer>
   )
 }
-
-const LinkButton = styled(Link)``
 
 const LogoContainer = styled.div`
   display: flex;
