@@ -10,13 +10,22 @@ export function useProfile() {
 
   const user = useRecoilValue(UserAtom)
 
-  const profile = useMemo(
-    () => ({
-      image: user?.image,
-      name: user?.name,
-    }),
-    [user?.image, user?.name]
-  )
+  const profile = useMemo(() => {
+    const FULL_NAME = `${user?.profile.firstName} ${user?.profile.lastName}`
+
+    const USER_IMAGE = user?.profile.avatar_url
+
+    const image = USER_IMAGE ? USER_IMAGE : "/DefaultUserImage.png"
+
+    return {
+      name: FULL_NAME,
+      image,
+    }
+  }, [
+    user?.profile.avatar_url,
+    user?.profile.firstName,
+    user?.profile.lastName,
+  ])
 
   return { userId, profile }
 }

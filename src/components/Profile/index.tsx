@@ -4,8 +4,10 @@ import { useProfile } from "./hooks/useProfile"
 
 import { Screen } from "../../ui/Screen"
 import { Text } from "../../ui/atoms/Text"
+
 import { Header } from "../Header"
 import { Footer } from "../Footer"
+import { ChatProfileImage } from "../Chat/components/ChatProfile"
 import { ArchivedChatsModal } from "./ArchivedChatsModal"
 
 export function Profile() {
@@ -15,10 +17,10 @@ export function Profile() {
 
   return (
     <ProfileScreen>
-      <Header />
+      <Header preset="PROFILE" />
 
       <UserProfileContainer>
-        <ProfileImage src={profile.image} alt={PROFILE_IMAGE_ALT} />
+        <ChatProfileImage src={profile.image} alt={PROFILE_IMAGE_ALT} />
 
         <Text size="small" type="V2">
           {profile.name}
@@ -47,11 +49,4 @@ const UserProfileContainer = styled(ProfileContainer)`
   display: flex;
   align-items: center;
   gap: 1rem;
-`
-
-const ProfileImage = styled.img`
-  width: 3rem;
-  height: 3rem;
-  border-radius: 9999px;
-  object-fit: cover;
 `
