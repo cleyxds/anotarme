@@ -51,7 +51,7 @@ const handleCreateChat = (socket: Socket, chatsRepository: Repository) => {
 
       await chatsRepository.save(createdChat)
 
-      const chats = await getAllChats(chatsRepository)
+      const chats = await getAllChats(chatsRepository, owner)
 
       socket.emit(CHATS_RECEIVED, chats)
 
@@ -70,7 +70,7 @@ const handleUserJoinChat = (socket: Socket, chatsRepository: Repository) => {
 
     console.log(`USER | ${userId} just joined`)
 
-    const chats = await getAllChats(chatsRepository)
+    const chats = await getAllChats(chatsRepository, userId)
 
     socket.emit(USER_CHAT_JOINED, chats)
   })
@@ -117,16 +117,18 @@ const handleSendMessage = (socket: Socket, chatsRepository: Repository) => {
   }
 
   socket.on(CHAT_SEND, async (message) => {
+    const ownerId = message["userId"]
+
     await processMessage(message)
 
-    const chats = await getAllChats(chatsRepository)
+    const chats = await getAllChats(chatsRepository, ownerId)
 
     socket.broadcast.emit(CHATS_RECEIVED, chats)
     socket.emit(CHATS_RECEIVED, chats)
   })
 }
 
-async function getAllChats(chatsRepository: Repository) {
+async function getAllChats(chatsRepository: Repository, ownerId: string) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const parseAllMessages = (chats: any[]) => {
     return chats.map((chat) => ({
@@ -139,6 +141,8 @@ async function getAllChats(chatsRepository: Repository) {
     .search()
     .where("hidden")
     .equal(false)
+    .where("owner")
+    .equal(ownerId)
     .return.all()
     .then(parseAllMessages)
 
