@@ -20,7 +20,7 @@ export function Landing() {
             Escreva suas besteiras conosco 😎
           </Text>
 
-          <Text>Relembre as suas ideias anotando-as aqui!</Text>
+          <Text type="V2">Relembre as suas ideias anotando-as aqui!</Text>
         </LandingInfoContent>
 
         <div>
