@@ -35,3 +35,35 @@
   src: local("SF Pro Display"),
     url(../assets/fonts/SFPRODISPLAYBOLD.OTF) format("opentype");
 }
+
+@font-face {
+  font-family: "SuissetIntl Regular";
+  font-style: normal;
+  font-weight: 400;
+  src: local("SuissetIntl"),
+    url(../assets/fonts/SuisseIntl-Regular.woff2) format("woff2");
+}
+
+@font-face {
+  font-family: "SuissetIntl Medium";
+  font-style: normal;
+  font-weight: 500;
+  src: local("SuissetIntl"),
+    url(../assets/fonts/SuisseIntl-Medium.woff2) format("woff2");
+}
+
+@font-face {
+  font-family: "SuissetIntl Bold";
+  font-style: normal;
+  font-weight: 700;
+  src: local("SuissetIntl"),
+    url(../assets/fonts/SuisseIntl-Bold.woff2) format("woff2");
+}
+
+@font-face {
+  font-family: "Gestura Text Regular";
+  font-style: normal;
+  font-weight: 400;
+  src: local("Gestura Text"),
+    url(../assets/fonts/GesturaText-Regular.woff2) format("woff2");
+}
