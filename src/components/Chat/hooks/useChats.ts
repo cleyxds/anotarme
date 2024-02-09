@@ -8,10 +8,10 @@ import { ChatsAtom } from "../../../atoms/Chats"
 
 import { ChatType } from "../../../types/chat"
 
-const SOCKET_URL = "http://192.168.1.103:3434"
+import { SOCKETIO_SERVICE_URL } from "../../../config"
 
 function initializeSocket() {
-  return socketIOClient(SOCKET_URL, {
+  return socketIOClient(SOCKETIO_SERVICE_URL, {
     autoConnect: false,
     reconnectionDelay: 5000,
     reconnectionDelayMax: 10000,

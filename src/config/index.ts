@@ -1,0 +1,3 @@
+const SOCKETIO_SERVICE_URL = import.meta.env.VITE_SOCKETIO_SERVICE
+
+export { SOCKETIO_SERVICE_URL }
