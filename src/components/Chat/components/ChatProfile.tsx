@@ -7,11 +7,12 @@ import { Text } from "../../../ui/atoms/Text"
 import { ChatMessage } from "./ChatContent"
 import { ChatHeaderProps } from "./ChatHeader"
 import { LinkButton } from "../../LinkButton"
+import { OptimizedImage } from "../../OptimizedImage"
 
 import Logo from "../../../assets/icons/Logo"
 import UserIcon from "../../../assets/icons/UserIcon"
 
-export const ChatProfileImage = styled.img`
+export const ChatProfileImage = styled(OptimizedImage)`
   border-radius: 9999px;
   border: 1px solid var(--GREEN-IX);
   width: 3rem;
@@ -50,13 +51,12 @@ export function ChatProfile({ profile }: ChatHeaderProps) {
         </ChatProfileMe>
       )}
 
-      {SHOULD_LOGIN && <LoginButton to="/auth/login">Login!</LoginButton>}
+      {SHOULD_LOGIN && <LoginButton to="/auth/login">Login</LoginButton>}
     </ChatProfileContainer>
   )
 }
 
 const LoginButton = styled(LinkButton)`
-  height: fit-content;
   align-self: center;
 `
 

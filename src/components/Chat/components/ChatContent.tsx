@@ -2,9 +2,11 @@ import styled from "styled-components"
 
 import { formatDistanceToNow } from "date-fns"
 
+import { baseSuissetIntlRegular } from "../../../ui/base"
 import { Input } from "../../../ui/atoms/Input"
 import { Button } from "../../../ui/atoms/Button"
 import { Text } from "../../../ui/atoms/Text"
+import { ChatContentSkeleton } from "./ChatContentSkeleton"
 
 import { ChatIdProps, ChatType } from "../../../types/chat"
 
@@ -20,18 +22,27 @@ export const ChatMessage = styled(Text)``
 export const ChatInput = styled(Input)`
   border: none;
   color: var(--WHITE-I);
-  font-family: "Hackernoon-v2";
+  ${baseSuissetIntlRegular}
+  font-weight: 400;
   letter-spacing: 2px;
-  border-radius: 8px;
   height: 3rem;
   width: 100%;
   background-color: var(--BLACK-I);
+`
+
+export const SendButton = styled(Button)`
+  height: max-content;
 `
 
 export const CloseChat = styled(Button)`
   position: absolute;
   right: 0;
   top: 0;
+
+  &:hover {
+    background-color: var(--RED-I);
+    color: var(--WHITE-I);
+  }
 `
 
 export function ChatContent({
@@ -60,14 +71,14 @@ export function ChatContent({
   if (!chatId) {
     return (
       <ContentContainer>
-        <NoContent />
+        <ChatContentSkeleton />
       </ContentContainer>
     )
   }
 
   return (
     <ContentContainer>
-      <CloseChat onClick={handleCloseChat}>Close</CloseChat>
+      <CloseChat onClick={handleCloseChat}>Fechar</CloseChat>
 
       <div className="flex flex-1 flex-col text-[var(--BLACK-I)] pr-[12%]">
         {chat?.messages.map((message) => {
@@ -105,19 +116,9 @@ export function ChatContent({
           ref={chatInputRef}
         />
 
-        <button type="submit">Send</button>
+        <SendButton type="submit">Enviar</SendButton>
       </form>
     </ContentContainer>
-  )
-}
-
-function NoContent() {
-  return (
-    <div className="flex flex-1 justify-center items-center">
-      <ChatMessage size="small" color="BLACK-I" type="V2" as="h1">
-        No content just yet, choose a chat.
-      </ChatMessage>
-    </div>
   )
 }
 

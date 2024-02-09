@@ -11,7 +11,6 @@ export function useChat() {
 
   const chatInputRef = useRef<HTMLInputElement>(null)
   const [chatId, setChatId] = useState("")
-  const [informationModalOpen, setInformationModalOpen] = useState(false)
   const chats = useRecoilValue(ChatsAtom)
 
   const [searchParams, setSearchParams] = useSearchParams()
@@ -42,7 +41,7 @@ export function useChat() {
   }, [PARAMS_CHAT_ID])
 
   useEffect(() => {
-    chatInputRef.current?.focus()
+    focusInput()
   }, [])
 
   useEffect(() => {
@@ -55,23 +54,37 @@ export function useChat() {
     document.title = `Chatao | Chat: ${selectedChatInfo.name}`
   }, [selectedChatInfo.name])
 
-  const isChatOwnerOrMember = useCallback(
-    (chatId: string) => chats.map((chat) => chat.identifier)?.includes(chatId),
-    [chats]
-  )
+  const clearInput = useCallback(() => {
+    if (!chatInputRef.current) return
 
-  function handleSelectChat(chatId: string) {
-    setSearchParams({ chatId })
+    chatInputRef.current.value = ""
+  }, [])
 
-    if (!isChatOwnerOrMember(chatId)) {
-      setInformationModalOpen(true)
+  const focusInput = useCallback(() => {
+    const timeoutRef = setTimeout(() => {
+      if (!chatInputRef.current) return
+
+      chatInputRef.current?.focus()
+
+      clearTimeout(timeoutRef)
+    }, 50)
+  }, [])
+
+  function handleSelectChat(chatIdSelected: string) {
+    if (chatIdSelected === chatId) {
+      focusInput()
 
       return
     }
 
-    setChatId(chatId)
+    setSearchParams({ chatId: chatIdSelected })
 
-    // chatInputRef.current?.focus()
+    setChatId(chatIdSelected)
+
+    if (!chatInputRef.current) return
+
+    clearInput()
+    focusInput()
   }
 
   function handleCloseChat() {
@@ -79,6 +92,7 @@ export function useChat() {
 
     setSearchParams(searchParams)
     setChatId("")
+    clearInput()
   }
 
   const profile = useMemo(() => {
@@ -103,6 +117,5 @@ export function useChat() {
     chatInputRef,
     profile,
     selectedChatInfo,
-    informationModalOpen,
   }
 }

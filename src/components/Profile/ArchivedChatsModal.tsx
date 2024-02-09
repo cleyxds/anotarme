@@ -4,8 +4,10 @@ import styled from "styled-components"
 
 import { Dialog } from "@headlessui/react"
 
+import { baseModal } from "../../ui/base"
 import { Text } from "../../ui/atoms/Text"
 import { Button } from "../../ui/atoms/Button"
+import { Backdrop, ScrollablePanel, Wrapper } from "../Modal/components"
 
 export function ArchivedChatsModal() {
   const [isOpen, setIsOpen] = useState(false)
@@ -35,6 +37,10 @@ export function ArchivedChatsModal() {
   )
 }
 
+const ArchivedChatsContainer = styled.div`
+  ${baseModal}
+`
+
 function ArchivedChatsSkeleton() {
   return (
     <Text size="small" color="WHITE-I">
@@ -46,38 +52,3 @@ function ArchivedChatsSkeleton() {
 function ArchivedChatsList() {
   return null
 }
-
-const Backdrop = styled.div.attrs({ "aria-hidden": true })`
-  position: fixed;
-  inset: 0;
-  background-color: rgba(0, 0, 0, 0.3);
-`
-
-const ScrollablePanel = styled.div`
-  position: fixed;
-  inset: 0;
-  width: 100dvw;
-  overflow-y: auto;
-`
-
-const Wrapper = styled.div`
-  display: flex;
-  min-height: 100%;
-  align-items: center;
-  justify-content: center;
-  padding: 1rem;
-`
-
-const ArchivedChatsContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-
-  min-width: calc(320px - 4rem);
-  max-width: 100dvw;
-  padding: 1rem;
-  gap: 1rem;
-  background-color: var(--BLACK-I);
-  border-radius: 10px;
-`

@@ -1,10 +1,12 @@
 import styled from "styled-components"
 
+import { baseSuissetIntlRegular } from "../../../ui/base"
+
 import { ChatMessage } from "./ChatContent"
 import { MobileChatList } from "./MobileChatList"
+import { ChatListSkeleton } from "./ChatListSkeleton"
 
 import { ChatType } from "../../../types/chat"
-import { ChatListSkeleton } from "./ChatListSkeleton"
 
 type ChatListProps = {
   chats?: ChatType[]
@@ -99,12 +101,22 @@ export function ChatList({
             <ChatImage src={CHAT_IMAGE} alt={CHAT_IMAGE_ALT} />
 
             <div className="w-[80%]">
-              <ChatName size="small" type="V2" color="GREEN-VI" as="h2">
+              <ChatName
+                size="small"
+                type="SUISSETINTLREGULAR"
+                color="GREEN-VI"
+                as="h2"
+              >
                 {CHAT_NAME}
               </ChatName>
 
               {HAS_LASTMESSAGE && (
-                <LastMessage size="small" type="V2" color="GREEN-VI" as="h3">
+                <LastMessage
+                  size="small"
+                  type="SUISSETINTLMEDIUM"
+                  color="GREEN-VI"
+                  as="h3"
+                >
                   {LAST_MESSAGE}
                 </LastMessage>
               )}
@@ -137,6 +149,7 @@ const ChatImage = styled.img`
 
 const ChatName = styled(ChatMessage)`
   color: var(--GREEN-IX);
+  ${baseSuissetIntlRegular}
 `
 
 const LastMessage = styled(ChatMessage)`
@@ -144,4 +157,5 @@ const LastMessage = styled(ChatMessage)`
   overflow: hidden;
   text-overflow: ellipsis;
   color: var(--WHITE-I);
+  font-weight: 400;
 `

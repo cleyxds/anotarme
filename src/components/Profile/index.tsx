@@ -22,7 +22,7 @@ export function Profile() {
       <UserProfileContainer>
         <ChatProfileImage src={profile.image} alt={PROFILE_IMAGE_ALT} />
 
-        <Text size="small" type="V2">
+        <Text size="small" type="SUISSETINTLBOLD">
           {profile.name}
         </Text>
       </UserProfileContainer>
@@ -48,5 +48,5 @@ const ProfileContainer = styled.div`
 const UserProfileContainer = styled(ProfileContainer)`
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.5rem;
 `

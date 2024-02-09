@@ -52,9 +52,22 @@ export function useChats() {
         name: chatName,
       }
 
+      const isValidFields = Object.values(chatCreated).every(Boolean)
+
+      if (!isValidFields) return
+
       chatSocket.emit("chat.create", chatCreated)
     },
     [chatSocket, user?.id]
+  )
+
+  const handleDeleteChat = useCallback(
+    (chatId: string) => {
+      if (!chatId) return
+
+      chatSocket.emit("chat.delete", { chatId })
+    },
+    [chatSocket]
   )
 
   useEffect(() => {
@@ -74,5 +87,5 @@ export function useChats() {
     }
   }, [onChatsChange, chatSocket, user?.id])
 
-  return { handleSendMessage, handleCreateChat }
+  return { handleSendMessage, handleCreateChat, handleDeleteChat }
 }

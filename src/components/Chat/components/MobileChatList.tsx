@@ -2,7 +2,7 @@ import { useCallback, useRef } from "react"
 
 import styled from "styled-components"
 
-import { ChatInput, ChatMessage, CloseChat } from "./ChatContent"
+import { ChatInput, ChatMessage, CloseChat, SendButton } from "./ChatContent"
 
 import { formatDistanceToNow } from "date-fns"
 
@@ -44,7 +44,7 @@ export function MobileChatList({
 
   return (
     <ContentContainer>
-      <CloseChat onClick={handleCloseChat}>Close</CloseChat>
+      <CloseChat onClick={handleCloseChat}>Fechar</CloseChat>
 
       <div className="flex flex-1 flex-col text-[var(--BLACK-I)] pr-[12%]">
         {chat?.messages.map((message) => {
@@ -82,7 +82,7 @@ export function MobileChatList({
           ref={chatInputRef}
         />
 
-        <button type="submit">Send</button>
+        <SendButton type="submit">Enviar</SendButton>
       </form>
     </ContentContainer>
   )

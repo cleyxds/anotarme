@@ -1,17 +1,16 @@
-import { ChatListContainer } from "./ChatList"
 import { StyledChatMessage } from "./StyledChatMessage"
 
-export function ChatListSkeleton() {
+export function ChatContentSkeleton() {
   return (
-    <ChatListContainer className="space-y-7 flex justify-center items-center">
+    <div className="flex flex-1 justify-center items-center">
       <StyledChatMessage
         size="small"
         type="SUISSETINTLREGULAR"
         color="GREEN-VI"
         as="h2"
       >
-        Sem chats
+        Escolha um chat
       </StyledChatMessage>
-    </ChatListContainer>
+    </div>
   )
 }

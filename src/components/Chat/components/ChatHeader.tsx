@@ -17,6 +17,7 @@ type ProfileDataProps = {
 }
 
 export type ChatHeaderProps = {
+  handleDeleteChat?: (chatId: string) => void
   selectChatData?: SelectedChatInfo
   profile?: ProfileDataProps | null
 } & ChatIdProps
@@ -25,6 +26,7 @@ export function ChatHeader({
   chatId,
   profile,
   selectChatData,
+  handleDeleteChat,
 }: ChatHeaderProps) {
   return (
     <ChatProfileContainer>
@@ -32,7 +34,11 @@ export function ChatHeader({
 
       <ChatProfileVerticalBar />
 
-      <ChatIndicator chatId={chatId} selectChatData={selectChatData} />
+      <ChatIndicator
+        chatId={chatId}
+        selectChatData={selectChatData}
+        handleDeleteChat={handleDeleteChat}
+      />
     </ChatProfileContainer>
   )
 }

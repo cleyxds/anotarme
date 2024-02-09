@@ -3,8 +3,13 @@ import styled from "styled-components"
 import { ChatHeaderProps } from "./ChatHeader"
 import { ChatProfileImage } from "./ChatProfile"
 import { ChatMessage } from "./ChatContent"
+import { DeleteChat } from "./DeleteChat"
 
-export function ChatIndicator({ chatId, selectChatData }: ChatHeaderProps) {
+export function ChatIndicator({
+  chatId,
+  handleDeleteChat,
+  selectChatData,
+}: ChatHeaderProps) {
   if (!chatId) return null
 
   const CHAT_NAME = selectChatData?.name
@@ -15,17 +20,33 @@ export function ChatIndicator({ chatId, selectChatData }: ChatHeaderProps) {
     <ChatIndicatorContainer>
       <ChatProfileImage src={CHAT_IMAGE} alt="Chat image" />
 
-      <div className="flex flex-col">
-        <ChatMessage size="small" type="V1" color="GREEN-VI" as="h4">
+      <ChatNameContainer>
+        <ChatMessage
+          size="small"
+          type="SUISSETINTLBOLD"
+          color="GREEN-VI"
+          as="h2"
+        >
           {CHAT_NAME}
         </ChatMessage>
 
         {MEMBERS_LENGTH && (
-          <ChatMessage size="smallest" type="V1" color="GREEN-VI" as="h4">
+          <ChatMessage
+            size="smallest"
+            type="SUISSETINTLMEDIUM"
+            color="GREEN-VI"
+            as="h4"
+          >
             {MEMBERS_LENGTH} member ({MEMBERS_LENGTH} online)
           </ChatMessage>
         )}
-      </div>
+      </ChatNameContainer>
+
+      <DeleteChat
+        chatName={CHAT_NAME}
+        chatId={chatId}
+        handleDeleteChat={handleDeleteChat}
+      />
     </ChatIndicatorContainer>
   )
 }
@@ -40,4 +61,9 @@ const ChatIndicatorContainer = styled.div`
   @media (max-width: 668px) {
     display: none;
   }
+`
+
+const ChatNameContainer = styled.div`
+  display: flex;
+  flex-direction: column;
 `
