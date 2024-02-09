@@ -2,17 +2,17 @@ import { useMemo } from "react"
 
 import styled from "styled-components"
 
-import { useAuthentication } from "../hooks/useAuthentication"
+import { useAuthentication } from "../../hooks/useAuthentication"
 import { useRecoilValue } from "recoil"
-import { AuthAtom } from "../atoms/Auth"
+import { AuthAtom } from "../../atoms/Auth"
+import { UserAtom } from "../../atoms/User"
 
-import { Button } from "../ui/atoms/Button"
-import { Text } from "../ui/atoms/Text"
+import { Button } from "../../ui/atoms/Button"
+import { Text } from "../../ui/atoms/Text"
+import { LinkButton } from "../LinkButton"
+import { LogoutModal } from "./components/LogoutModal"
 
-import { LinkButton } from "./LinkButton"
-
-import Logo from "../assets/icons/Logo"
-import { UserAtom } from "../atoms/User"
+import Logo from "../../assets/icons/Logo"
 
 type HeaderProps = {
   preset?: "DEFAULT" | "PROFILE"
@@ -71,18 +71,14 @@ export function Header({ preset = "DEFAULT" }: HeaderProps) {
       </LogoContainer>
 
       <NavigationContainer>
-        {selectedPreset.logout && (
-          <LinkButton to="/" onClick={logout}>
-            Sair
-          </LinkButton>
-        )}
+        {selectedPreset.logout && <LogoutModal logout={logout} />}
 
         <LinkButton to="/chats">Seus chats</LinkButton>
 
         <Button onClick={handleShare}>Compartilhar</Button>
 
         {selectedPreset.account && (
-          <LinkButton to={YOUR_ACCOUNT_LINK}>Sua conta</LinkButton>
+          <LinkButton to={YOUR_ACCOUNT_LINK}>Eu</LinkButton>
         )}
       </NavigationContainer>
     </HeaderContainer>
