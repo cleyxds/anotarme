@@ -47,12 +47,12 @@ export function useChat() {
 
   useEffect(() => {
     if (!selectedChatInfo.name) {
-      document.title = "Anotar me | Chat"
+      document.title = "Chatao | Chat"
 
       return
     }
 
-    document.title = `Anotar me | Chat: ${selectedChatInfo.name}`
+    document.title = `Chatao | Chat: ${selectedChatInfo.name}`
   }, [selectedChatInfo.name])
 
   const isChatOwnerOrMember = useCallback(

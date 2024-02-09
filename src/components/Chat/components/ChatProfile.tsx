@@ -33,7 +33,7 @@ export function ChatProfile({ profile }: ChatHeaderProps) {
       <ChatProfileLink href="/">
         <Logo />
 
-        <ChatTitle>Anotar me</ChatTitle>
+        <ChatTitle type="V2">Chatao</ChatTitle>
       </ChatProfileLink>
 
       {PROFILE_ID && (

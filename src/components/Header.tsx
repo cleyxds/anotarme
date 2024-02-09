@@ -67,7 +67,7 @@ export function Header({ preset = "DEFAULT" }: HeaderProps) {
       <LogoContainer>
         <Logo size={40} />
 
-        <Text>Anotar me</Text>
+        <Text type="V2">Chatao</Text>
       </LogoContainer>
 
       <NavigationContainer>
