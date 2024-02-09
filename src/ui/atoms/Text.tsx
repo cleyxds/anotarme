@@ -2,7 +2,17 @@ import styled from "styled-components"
 
 import { MI } from "../../types/mapping"
 
-type TextTypes = "V1" | "V2" | "SFPROREGULAR" | "SFPROMEDIUM" | "SFPROBOLD"
+type TextTypes =
+  | "V1"
+  | "V2"
+  | "SFPROREGULAR"
+  | "SFPROMEDIUM"
+  | "SFPROBOLD"
+  | "SUISSETINTLREGULAR"
+  | "SUISSETINTLMEDIUM"
+  | "SUISSETINTLBOLD"
+  | "GESTURATEXTREGULAR"
+
 type ColorPalette =
   | "GREEN-I"
   | "GREEN-II"
@@ -37,6 +47,10 @@ const selectFontFamily = (type = "V1") => {
     SFPROREGULAR: "SF Pro Display Regular",
     SFPROMEDIUM: "SF Pro Display Medium",
     SFPROBOLD: "SF Pro Display Bold",
+    SUISSETINTLREGULAR: "SuissetIntl Regular",
+    SUISSETINTLMEDIUM: "SuissetIntl Medium",
+    SUISSETINTLBOLD: "SuissetIntl Bold",
+    GESTURATEXTREGULAR: "Gestura Text Regular",
   }
 
   return fonts[type]

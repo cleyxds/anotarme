@@ -1,17 +1,25 @@
 import styled from "styled-components"
 
+import { baseSuissetIntlRegular } from "../base"
+
 export const Button = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   color: var(--BLACK-I);
-  font-size: 0.75rem;
-  padding: 0.25rem 1rem;
-  border: 2px solid var(--BLACK-I);
-  border-radius: 3px;
-  font-family: "Hackernoon-v2";
-  background-color: transparent;
-  transition: all 0.7s;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  border: 0.8px solid var(--BLACK-I);
+  background-color: var(--WHITE-I);
+  transition: all 0.3s;
+  ${baseSuissetIntlRegular}
+
+  height: 2rem;
+  min-width: auto;
 
   &:hover {
     background-color: var(--GREEN-XII);
-    transition: all 0.7s;
+    transition: all 0.3s;
   }
 `
