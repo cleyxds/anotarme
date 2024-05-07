@@ -12,7 +12,7 @@ type ChatListProps = {
   chats?: ChatType[]
   chat?: ChatType
   handleSelectChat: (chatId: string) => void
-  handleSendMessage: (chatId: string, message: string) => void
+  handleSendMessage: (chatId: string, message: string) => Promise<void>
   handleCloseChat: () => void
   chatId: string
 }
