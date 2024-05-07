@@ -2,9 +2,17 @@ import { useCallback, useRef } from "react"
 
 import styled from "styled-components"
 
-import { ChatInput, ChatMessage, CloseChat, SendButton } from "./ChatContent"
-
 import { formatDistanceToNow } from "date-fns"
+
+import {
+  ChatInput,
+  ChatMessage,
+  CloseChat,
+  MESSAGE_TEXT_LINK,
+  SendButton,
+} from "./ChatContent"
+
+import { hasLink } from "../utils/linkHandler"
 
 import { ChatType } from "../../../types/chat"
 
@@ -12,7 +20,7 @@ type MobileChatListProps = {
   chat: ChatType
   handleCloseChat: () => void
   chatId: string
-  handleSendMessage: (chatId: string, message: string) => void
+  handleSendMessage: (chatId: string, message: string) => Promise<void>
 }
 
 export function MobileChatList({
@@ -49,9 +57,12 @@ export function MobileChatList({
       <div className="flex flex-1 flex-col text-[var(--BLACK-I)] pr-[12%]">
         {chat?.messages.map((message) => {
           const MESSAGE_ID = message.id
+          const MESSAGE_TEXT = message.text
           const MESSAGE_TIMESTAMP = formatDistanceToNow(
             new Date(message.timestamp)
           )
+
+          const isLink = hasLink(MESSAGE_TEXT)
 
           return (
             <div key={MESSAGE_ID}>
@@ -64,7 +75,7 @@ export function MobileChatList({
                 {MESSAGE_TIMESTAMP} -
               </ChatMessage>{" "}
               <ChatMessage size="small" type="SFPROMEDIUM" as="span">
-                {message.text}
+                {isLink ? MESSAGE_TEXT_LINK(MESSAGE_TEXT) : MESSAGE_TEXT}
               </ChatMessage>
             </div>
           )

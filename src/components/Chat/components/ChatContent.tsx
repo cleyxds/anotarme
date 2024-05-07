@@ -8,6 +8,8 @@ import { Button } from "../../../ui/atoms/Button"
 import { Text } from "../../../ui/atoms/Text"
 import { ChatContentSkeleton } from "./ChatContentSkeleton"
 
+import { extractLink, hasLink } from "../utils/linkHandler"
+
 import { ChatIdProps, ChatType } from "../../../types/chat"
 
 type ChatContentProps = {
@@ -17,7 +19,9 @@ type ChatContentProps = {
   handleSendMessage: (chatId: string, message: string) => Promise<void>
 } & ChatIdProps
 
-export const ChatMessage = styled(Text)``
+export const ChatMessage = styled(Text)`
+  overflow-wrap: anywhere;
+`
 export const ChatMessageLink = styled(ChatMessage).attrs({
   target: "_blank",
   rel: "noopener noreferrer",
@@ -33,6 +37,17 @@ export const ChatMessageLink = styled(ChatMessage).attrs({
     top: 3px;
   }
 `
+
+export const MESSAGE_TEXT_LINK = (MESSAGE_TEXT: string) => (
+  <ChatMessageLink
+    as="a"
+    size="small"
+    type="SFPROMEDIUM"
+    href={extractLink(MESSAGE_TEXT)}
+  >
+    {MESSAGE_TEXT}
+  </ChatMessageLink>
+)
 
 export const ChatInput = styled(Input)`
   border: none;
@@ -59,14 +74,6 @@ export const CloseChat = styled(Button)`
     color: var(--WHITE-I);
   }
 `
-
-const hasLink = (text: string) => /(https?:\/\/[^\s]+)/g.test(text)
-
-function extractLink(text: string) {
-  const urlRegex = /(https?:\/\/[^\s]+)/g
-  const matches = text.match(urlRegex)
-  return matches ? matches[0] : text
-}
 
 export function ChatContent({
   chat,
@@ -113,17 +120,6 @@ export function ChatContent({
 
           const isLink = hasLink(MESSAGE_TEXT)
 
-          const MESSAGE_TEXT_LINK = (
-            <ChatMessageLink
-              as="a"
-              size="small"
-              type="SFPROMEDIUM"
-              href={extractLink(MESSAGE_TEXT)}
-            >
-              {MESSAGE_TEXT}
-            </ChatMessageLink>
-          )
-
           return (
             <div key={MESSAGE_ID}>
               <ChatMessage
@@ -135,7 +131,7 @@ export function ChatContent({
                 {MESSAGE_TIMESTAMP} -
               </ChatMessage>{" "}
               <ChatMessage size="small" type="SFPROMEDIUM" as="span">
-                {isLink ? MESSAGE_TEXT_LINK : MESSAGE_TEXT}
+                {isLink ? MESSAGE_TEXT_LINK(MESSAGE_TEXT) : MESSAGE_TEXT}
               </ChatMessage>
             </div>
           )
