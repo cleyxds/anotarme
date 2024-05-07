@@ -18,6 +18,21 @@ type ChatContentProps = {
 } & ChatIdProps
 
 export const ChatMessage = styled(Text)``
+export const ChatMessageLink = styled(ChatMessage).attrs({
+  target: "_blank",
+  rel: "noopener noreferrer",
+})`
+  color: var(--GREEN-VII);
+  text-decoration: underline;
+  text-decoration-color: var(--GREEN-VII);
+
+  &::after {
+    content: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="1rem" viewBox="0 -960 960 960" width="1rem" fill="rgb(40, 82, 48)"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h560v-280h80v280q0 33-23.5 56.5T760-120H200Zm188-212-56-56 372-372H560v-80h280v280h-80v-144L388-332Z"/></svg>');
+    position: relative;
+    margin-left: 3px;
+    top: 3px;
+  }
+`
 
 export const ChatInput = styled(Input)`
   border: none;
@@ -44,6 +59,14 @@ export const CloseChat = styled(Button)`
     color: var(--WHITE-I);
   }
 `
+
+const hasLink = (text: string) => /(https?:\/\/[^\s]+)/g.test(text)
+
+function extractLink(text: string) {
+  const urlRegex = /(https?:\/\/[^\s]+)/g
+  const matches = text.match(urlRegex)
+  return matches ? matches[0] : text
+}
 
 export function ChatContent({
   chat,
@@ -83,8 +106,22 @@ export function ChatContent({
       <div className="flex flex-1 flex-col text-[var(--BLACK-I)] pr-[12%]">
         {chat?.messages.map((message) => {
           const MESSAGE_ID = message.id
+          const MESSAGE_TEXT = message.text
           const MESSAGE_TIMESTAMP = formatDistanceToNow(
             new Date(message.timestamp)
+          )
+
+          const isLink = hasLink(MESSAGE_TEXT)
+
+          const MESSAGE_TEXT_LINK = (
+            <ChatMessageLink
+              as="a"
+              size="small"
+              type="SFPROMEDIUM"
+              href={extractLink(MESSAGE_TEXT)}
+            >
+              {MESSAGE_TEXT}
+            </ChatMessageLink>
           )
 
           return (
@@ -98,7 +135,7 @@ export function ChatContent({
                 {MESSAGE_TIMESTAMP} -
               </ChatMessage>{" "}
               <ChatMessage size="small" type="SFPROMEDIUM" as="span">
-                {message.text}
+                {isLink ? MESSAGE_TEXT_LINK : MESSAGE_TEXT}
               </ChatMessage>
             </div>
           )
