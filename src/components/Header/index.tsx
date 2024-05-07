@@ -65,7 +65,7 @@ export function Header({ preset = "DEFAULT" }: HeaderProps) {
   return (
     <HeaderContainer>
       <LogoContainer>
-        <Logo size={40} />
+        <Logo />
 
         <Text type="V2">Chatao</Text>
       </LogoContainer>

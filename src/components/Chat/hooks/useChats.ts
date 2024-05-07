@@ -1,6 +1,6 @@
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useEffect } from "react"
 
-import socketIOClient, { Socket } from "socket.io-client"
+import { collection, onSnapshot } from "firebase/firestore"
 
 import { useRecoilValue, useSetRecoilState } from "recoil"
 import { UserAtom } from "../../../atoms/User"
@@ -8,41 +8,30 @@ import { ChatsAtom } from "../../../atoms/Chats"
 
 import { ChatType } from "../../../types/chat"
 
-import { SOCKETIO_SERVICE_URL } from "../../../config"
-
-function initializeSocket() {
-  return socketIOClient(SOCKETIO_SERVICE_URL, {
-    autoConnect: false,
-    reconnectionDelay: 5000,
-    reconnectionDelayMax: 10000,
-  })
-}
+import {
+  CHATS_COLLECTION,
+  createChat,
+  createMessageInChat,
+  deleteChat,
+} from "../../../utils/chat"
+import { db } from "../../../utils/firebase"
 
 export function useChats() {
   const setChats = useSetRecoilState(ChatsAtom)
   const user = useRecoilValue(UserAtom)
 
-  const [chatSocket] = useState<Socket>(() => initializeSocket())
-
-  const onChatsChange = useCallback(
-    (chats: unknown) => {
-      setChats(chats as ChatType[])
-    },
-    [setChats]
-  )
-
   const handleSendMessage = useCallback(
     async (chatId: string, message: string) => {
       const messageSent = {
         chatId,
-        message,
+        text: message,
         userId: user?.id,
         timestamp: new Date().toISOString(),
       }
 
-      chatSocket.emit("chat.send", messageSent)
+      createMessageInChat(messageSent)
     },
-    [chatSocket, user?.id]
+    [user?.id]
   )
 
   const handleCreateChat = useCallback(
@@ -56,36 +45,41 @@ export function useChats() {
 
       if (!isValidFields) return
 
-      chatSocket.emit("chat.create", chatCreated)
+      createChat(chatCreated)
     },
-    [chatSocket, user?.id]
+    [user?.id]
   )
 
   const handleDeleteChat = useCallback(
     (chatId: string) => {
       if (!chatId) return
 
-      chatSocket.emit("chat.delete", { chatId })
+      const chatDeleted = {
+        userId: user?.id,
+        chatId,
+      }
+
+      deleteChat(chatDeleted)
     },
-    [chatSocket]
+    [user?.id]
   )
 
   useEffect(() => {
-    chatSocket.connect()
+    const userOwnedChatsRef = `${user?.id}/owned`
 
-    chatSocket.on("connect", () => {
-      if (!user?.id) return
+    const unsub = onSnapshot(
+      collection(db, CHATS_COLLECTION, userOwnedChatsRef),
+      (doc) => {
+        const chats = doc.docs?.map((doc) => doc.data())
 
-      chatSocket.emit("user.chat.join", { userId: user.id })
-    })
-
-    chatSocket.on("user.chat.joined", onChatsChange)
-    chatSocket.on("chats.received", onChatsChange)
+        setChats(chats as ChatType[])
+      }
+    )
 
     return () => {
-      chatSocket.disconnect()
+      unsub()
     }
-  }, [onChatsChange, chatSocket, user?.id])
+  }, [setChats, user?.id])
 
   return { handleSendMessage, handleCreateChat, handleDeleteChat }
 }

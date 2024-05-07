@@ -1,6 +1,4 @@
-import { SVGTypeProps } from "../../types/svg"
-
-const SvgComponent = ({ size = 32, ...props }: SVGTypeProps) => null
+const SvgComponent = () => null
 
 // (
 //   <svg

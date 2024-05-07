@@ -7,7 +7,7 @@ export type User = {
   lastLogin: string
   lastUpdated: string
   passwordChangedAt: string
-  profile: ProfileType
+  profile: Profile
   credentials: CredentialsType
   locale: string
 }
@@ -20,6 +20,8 @@ type ProfileType = {
   phone: string
   avatar_url: string | null
 }
+
+type Profile = ProfileType
 
 type CredentialsType = {
   provider: string
