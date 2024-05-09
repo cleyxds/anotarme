@@ -28,11 +28,10 @@ export const ChatListContainer = styled.div`
     width: 33.63%;
   }
 
-  @media (max-width: 668px) {
+  @media (width < 668px) {
     width: 100%;
     padding-right: 0 !important;
     overflow-y: auto;
-    padding-top: 0 !important;
   }
 
   &::-webkit-scrollbar {
@@ -63,9 +62,7 @@ export function ChatList({
 }: ChatListProps) {
   const NO_CHATS = !chats?.length
 
-  if (NO_CHATS) {
-    return <ChatListSkeleton />
-  }
+  if (NO_CHATS) return <ChatListSkeleton />
 
   const foundMessages = chat?.messages?.length
   const isMobile = window.innerWidth <= 668

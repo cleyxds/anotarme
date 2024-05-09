@@ -114,7 +114,6 @@ export function ChatContent({
 
       <div className="flex flex-1 flex-col text-[var(--BLACK-I)] pr-[12%]">
         {chat?.messages.map((message) => {
-          const MESSAGE_ID = message.id
           const MESSAGE_TEXT = message.text
           const MESSAGE_TIMESTAMP = formatDistanceToNow(
             new Date(message.timestamp)
@@ -123,7 +122,7 @@ export function ChatContent({
           const isLink = hasLink(MESSAGE_TEXT)
 
           return (
-            <div key={MESSAGE_ID}>
+            <div key={message.timestamp}>
               <ChatMessage
                 size="small"
                 type="SFPROBOLD"

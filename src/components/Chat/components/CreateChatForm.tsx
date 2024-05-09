@@ -1,15 +1,22 @@
 import { useCallback } from "react"
 
-import styled from "styled-components"
+import styled, { css } from "styled-components"
 
 import { Input } from "../../../ui/atoms/Input"
 import { Button } from "../../../ui/atoms/Button"
 
+type IChatOpen = {
+  chatOpen: boolean
+}
+
+type CreateChatFormProps = IChatOpen & {
+  handleCreateChat: (chatName: string) => void
+}
+
 export function CreateChatForm({
   handleCreateChat,
-}: {
-  handleCreateChat: (chatName: string) => void
-}) {
+  chatOpen,
+}: CreateChatFormProps) {
   const handleFormSubmit = useCallback(
     (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault()
@@ -26,7 +33,7 @@ export function CreateChatForm({
   )
 
   return (
-    <CreateChatFormContainer onSubmit={handleFormSubmit}>
+    <CreateChatFormContainer chatOpen={chatOpen} onSubmit={handleFormSubmit}>
       <Input
         id="chat-name"
         required
@@ -39,15 +46,31 @@ export function CreateChatForm({
   )
 }
 
-const CreateChatFormContainer = styled.form`
+const CreateChatFormContainer = styled.form<IChatOpen>`
   position: absolute;
   top: 0;
   z-index: 50;
-  display: flex;
+  display: none;
   align-items: center;
   gap: 1rem;
+  background-color: var(--WHITE-I);
 
-  @media (max-width: 1406px) {
-    display: none;
+  @media (width > 1200px) {
+    display: flex;
+  }
+
+  @media (width < 668px) {
+    ${({ chatOpen }) => hidechat(chatOpen)}
   }
 `
+
+const hidechat = (chatOpen: boolean) => {
+  if (chatOpen)
+    return css`
+      display: none;
+    `
+
+  return css`
+    display: flex;
+  `
+}

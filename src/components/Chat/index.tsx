@@ -24,6 +24,8 @@ export function Chat() {
     reversedChats,
   } = useChat()
 
+  const chatOpen = !!selectedChat
+
   return (
     <ChatScreen>
       <ChatHeader
@@ -34,7 +36,10 @@ export function Chat() {
       />
 
       <ChatListContainer>
-        <CreateChatForm handleCreateChat={handleCreateChat} />
+        <CreateChatForm
+          chatOpen={chatOpen}
+          handleCreateChat={handleCreateChat}
+        />
 
         <ChatList
           handleSelectChat={handleSelectChat}
