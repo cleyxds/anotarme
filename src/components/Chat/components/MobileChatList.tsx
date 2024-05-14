@@ -54,7 +54,7 @@ export function MobileChatList({
     <ContentContainer>
       <CloseChat onClick={handleCloseChat}>Fechar</CloseChat>
 
-      <div className="flex flex-1 flex-col text-[var(--BLACK-I)] pr-[12%]">
+      <div className="flex flex-1 flex-col text-[var(--BLACK-I)] pr-[12%] mb-4 overflow-y-scroll">
         {chat?.messages.map((message) => {
           const MESSAGE_TEXT = message.text
           const MESSAGE_TIMESTAMP = formatDistanceToNow(

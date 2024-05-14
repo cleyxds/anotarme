@@ -11,6 +11,7 @@ export type ChatType = {
   lastUpdated?: string
   owner?: string
   status?: string
+  archived?: boolean
 }
 
 type User = { image: string }

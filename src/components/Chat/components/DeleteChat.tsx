@@ -10,6 +10,8 @@ import { Button } from "../../../ui/atoms/Button"
 
 import { Backdrop, ScrollablePanel, Wrapper } from "../../Modal/components"
 
+import { Trash } from "../../../assets/icons"
+
 type DeleteChatProps = {
   chatId: string
   handleDeleteChat?: (chatId: string) => void
@@ -40,9 +42,9 @@ export function DeleteChat({
 
   return (
     <>
-      <div className="flex flex-1 justify-end">
-        <DeleteButton onClick={handleOpen}>Deletar</DeleteButton>
-      </div>
+      <DeleteButton onClick={handleOpen}>
+        <Trash /> Deletar
+      </DeleteButton>
 
       <Dialog open={isOpen} onClose={handleClose} className="fixed z-50">
         <Backdrop />
@@ -91,7 +93,7 @@ const DeleteButton = styled(Button)`
   &:hover {
     background-color: var(--RED-I);
     color: var(--WHITE-I);
-    transition: all 0.3s;
+    transition: background-color 0.3s;
   }
 `
 

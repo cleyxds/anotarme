@@ -11,7 +11,7 @@ import { ChatProfileImage } from "../Chat/components/ChatProfile"
 import { ArchivedChatsModal } from "./ArchivedChatsModal"
 
 export function Profile() {
-  const { profile } = useProfile()
+  const { profile, userId } = useProfile()
 
   const PROFILE_IMAGE_ALT = `${profile.name} image`
 
@@ -28,7 +28,7 @@ export function Profile() {
       </UserProfileContainer>
 
       <ProfileContainer>
-        <ArchivedChatsModal />
+        <ArchivedChatsModal userId={userId!} />
       </ProfileContainer>
 
       <Footer />

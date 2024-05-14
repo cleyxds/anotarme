@@ -4,6 +4,7 @@ export const Backdrop = styled.div.attrs({ "aria-hidden": true })`
   position: fixed;
   inset: 0;
   background-color: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(5px);
 `
 
 export const ScrollablePanel = styled.div`

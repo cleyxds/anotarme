@@ -11,7 +11,13 @@ import { ChatContent } from "./components/ChatContent"
 import { CreateChatForm } from "./components/CreateChatForm"
 
 export function Chat() {
-  const { handleSendMessage, handleCreateChat, handleDeleteChat } = useChats()
+  const {
+    handleSendMessage,
+    handleCreateChat,
+    handleDeleteChat,
+    handleArchiveChat,
+    handleClearChat,
+  } = useChats()
 
   const {
     chatId,
@@ -26,6 +32,16 @@ export function Chat() {
 
   const chatOpen = !!selectedChat
 
+  const archiveChat = async (chatId: string) => {
+    try {
+      await handleArchiveChat(chatId)
+
+      handleCloseChat()
+    } catch {
+      console.error("Error trying to archive chat")
+    }
+  }
+
   return (
     <ChatScreen>
       <ChatHeader
@@ -33,6 +49,8 @@ export function Chat() {
         profile={profile}
         selectChatData={selectedChatInfo}
         handleDeleteChat={handleDeleteChat}
+        handleArchiveChat={archiveChat}
+        handleClearChat={handleClearChat}
       />
 
       <ChatListContainer>

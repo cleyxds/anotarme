@@ -18,6 +18,9 @@ type ProfileDataProps = {
 
 export type ChatHeaderProps = {
   handleDeleteChat?: (chatId: string) => void
+  handleArchiveChat?: (chatId: string) => void
+  handleClearChat?: (chatId: string) => void
+  handleAddMembers?: () => void
   selectChatData?: SelectedChatInfo
   profile?: ProfileDataProps | null
 } & ChatIdProps
@@ -27,10 +30,20 @@ export function ChatHeader({
   profile,
   selectChatData,
   handleDeleteChat,
+  handleClearChat,
+  handleAddMembers,
+  handleArchiveChat,
 }: ChatHeaderProps) {
   return (
     <ChatProfileContainer>
-      <ChatProfile profile={profile} />
+      <ChatProfile
+        chatId={chatId}
+        handleDeleteChat={handleDeleteChat}
+        handleArchiveChat={handleArchiveChat}
+        handleClearChat={handleClearChat}
+        selectChatData={selectChatData}
+        profile={profile}
+      />
 
       <ChatProfileVerticalBar />
 
@@ -38,6 +51,9 @@ export function ChatHeader({
         chatId={chatId}
         selectChatData={selectChatData}
         handleDeleteChat={handleDeleteChat}
+        handleArchiveChat={handleArchiveChat!}
+        handleAddMembers={handleAddMembers!}
+        handleClearChat={handleClearChat!}
       />
     </ChatProfileContainer>
   )

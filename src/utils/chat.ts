@@ -71,7 +71,8 @@ async function createMessageInChat(data: any) {
   }
 }
 
-async function deleteChat(data: { userId: any; chatId: any }) {
+type DeleteChatParams = { userId: any; chatId: any }
+async function deleteChat(data: DeleteChatParams) {
   try {
     const userId = data.userId as string
     const chatId = data.chatId as string
@@ -84,4 +85,41 @@ async function deleteChat(data: { userId: any; chatId: any }) {
   }
 }
 
-export { CHATS_COLLECTION, createChat, createMessageInChat, deleteChat }
+async function archiveChatById(data: DeleteChatParams & { archived: boolean }) {
+  try {
+    const userId = data.userId as string
+    const chatId = data.chatId as string
+
+    const chatDocRef = doc(db, CHATS_COLLECTION, `${userId}/owned/${chatId}`)
+
+    await updateDoc(chatDocRef, {
+      status: "ARCHIVED",
+    })
+  } catch (error: any) {
+    console.error(error)
+  }
+}
+
+async function clearChatById(data: DeleteChatParams) {
+  try {
+    const userId = data.userId as string
+    const chatId = data.chatId as string
+
+    const chatDocRef = doc(db, CHATS_COLLECTION, `${userId}/owned/${chatId}`)
+
+    await updateDoc(chatDocRef, {
+      messages: [],
+    })
+  } catch (error: any) {
+    console.error(error)
+  }
+}
+
+export {
+  CHATS_COLLECTION,
+  createChat,
+  createMessageInChat,
+  deleteChat,
+  clearChatById,
+  archiveChatById,
+}

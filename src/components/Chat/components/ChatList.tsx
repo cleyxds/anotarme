@@ -64,7 +64,7 @@ export function ChatList({
 
   if (NO_CHATS) return <ChatListSkeleton />
 
-  const foundMessages = chat?.messages?.length
+  const foundMessages = !!chat
   const isMobile = window.innerWidth <= 668
 
   if (foundMessages && isMobile) {

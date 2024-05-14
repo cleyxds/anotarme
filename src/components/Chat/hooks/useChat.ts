@@ -8,6 +8,7 @@ import { ChatsAtom } from "../../../atoms/Chats"
 
 export function useChat() {
   const user = useRecoilValue(UserAtom)
+  const userHideChatTitle = user?.hideTitle
 
   const chatInputRef = useRef<HTMLInputElement>(null)
   const [chatId, setChatId] = useState("")
@@ -45,6 +46,8 @@ export function useChat() {
   }, [])
 
   useEffect(() => {
+    if (userHideChatTitle) return
+
     if (!selectedChatInfo.name) {
       document.title = "Chatao | Chat"
 
@@ -52,7 +55,7 @@ export function useChat() {
     }
 
     document.title = `Chatao | Chat: ${selectedChatInfo.name}`
-  }, [selectedChatInfo.name])
+  }, [selectedChatInfo.name, userHideChatTitle])
 
   const clearInput = useCallback(() => {
     if (!chatInputRef.current) return

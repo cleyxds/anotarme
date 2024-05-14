@@ -10,6 +10,8 @@ import { ChatContentSkeleton } from "./ChatContentSkeleton"
 
 import { extractLink, hasLink } from "../utils/linkHandler"
 
+import { X } from "../../../assets/icons"
+
 import { ChatIdProps, ChatType } from "../../../types/chat"
 
 type ChatContentProps = {
@@ -110,9 +112,12 @@ export function ChatContent({
 
   return (
     <ContentContainer>
-      <CloseChat onClick={handleCloseChat}>Fechar</CloseChat>
+      <CloseChat onClick={handleCloseChat}>
+        <X />
+        Fechar
+      </CloseChat>
 
-      <div className="flex flex-1 flex-col text-[var(--BLACK-I)] pr-[12%]">
+      <ChatArea className="flex flex-1 flex-col text-[var(--BLACK-I)] pr-[12%]">
         {chat?.messages.map((message) => {
           const MESSAGE_TEXT = message.text
           const MESSAGE_TIMESTAMP = formatDistanceToNow(
@@ -137,7 +142,7 @@ export function ChatContent({
             </div>
           )
         })}
-      </div>
+      </ChatArea>
 
       <form
         className="flex items-center text-[var(--BLACK-I)] gap-4"
@@ -167,4 +172,9 @@ const ContentContainer = styled.div`
   @media (max-width: 668px) {
     display: none;
   }
+`
+
+const ChatArea = styled.div`
+  overflow-y: scroll;
+  margin-bottom: 1rem;
 `

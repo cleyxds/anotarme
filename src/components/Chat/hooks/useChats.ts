@@ -1,6 +1,6 @@
 import { useCallback, useEffect } from "react"
 
-import { collection, onSnapshot } from "firebase/firestore"
+import { collection, onSnapshot, query, where } from "firebase/firestore"
 
 import { useRecoilValue, useSetRecoilState } from "recoil"
 import { UserAtom } from "../../../atoms/User"
@@ -10,6 +10,8 @@ import { ChatType } from "../../../types/chat"
 
 import {
   CHATS_COLLECTION,
+  archiveChatById,
+  clearChatById,
   createChat,
   createMessageInChat,
   deleteChat,
@@ -64,22 +66,60 @@ export function useChats() {
     [user?.id]
   )
 
+  const handleArchiveChat = useCallback(
+    async (chatId: string) => {
+      if (!chatId) return
+
+      const archiveChat = {
+        userId: user?.id,
+        chatId,
+        archived: true,
+      }
+
+      await archiveChatById(archiveChat)
+    },
+    [user?.id]
+  )
+
+  const handleClearChat = useCallback(
+    async (chatId: string) => {
+      if (!chatId) return
+
+      const clearedChat = {
+        userId: user?.id,
+        chatId,
+      }
+
+      await clearChatById(clearedChat)
+    },
+    [user?.id]
+  )
+
   useEffect(() => {
     const userOwnedChatsRef = `${user?.id}/owned`
 
-    const unsub = onSnapshot(
-      collection(db, CHATS_COLLECTION, userOwnedChatsRef),
-      (doc) => {
-        const chats = doc.docs?.map((doc) => doc.data())
-
-        setChats(chats as ChatType[])
-      }
+    const ownedUserChats = collection(db, CHATS_COLLECTION, userOwnedChatsRef)
+    const unarchivedChats = query(
+      ownedUserChats,
+      where("status", "==", "ACTIVE")
     )
+
+    const unsub = onSnapshot(unarchivedChats, (doc) => {
+      const chats = doc.docs?.map((doc) => doc.data())
+
+      setChats(chats as ChatType[])
+    })
 
     return () => {
       unsub()
     }
   }, [setChats, user?.id])
 
-  return { handleSendMessage, handleCreateChat, handleDeleteChat }
+  return {
+    handleSendMessage,
+    handleCreateChat,
+    handleClearChat,
+    handleDeleteChat,
+    handleArchiveChat,
+  }
 }

@@ -10,6 +10,7 @@ export type User = {
   profile: Profile
   credentials: CredentialsType
   locale: string
+  hideTitle?: boolean
 }
 
 type ProfileType = {
