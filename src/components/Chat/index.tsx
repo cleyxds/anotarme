@@ -65,7 +65,6 @@ export function Chat() {
           chat={selectedChat}
           handleCloseChat={handleCloseChat}
           handleSendMessage={handleSendMessage}
-          chatId={chatId}
         />
 
         <ChatContent

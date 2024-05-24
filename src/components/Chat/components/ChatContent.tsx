@@ -1,14 +1,14 @@
 import styled from "styled-components"
 
-import { formatDistanceToNow } from "date-fns"
-
 import { baseSuissetIntlRegular } from "../../../ui/base"
 import { Input } from "../../../ui/atoms/Input"
 import { Button } from "../../../ui/atoms/Button"
 import { Text } from "../../../ui/atoms/Text"
-import { ChatContentSkeleton } from "./ChatContentSkeleton"
 
-import { extractLink, hasLink } from "../utils/linkHandler"
+import { ChatContentSkeleton } from "./ChatContentSkeleton"
+import { ChatMessages } from "./ChatMessages"
+
+import { extractLink } from "../utils/linkHandler"
 
 import { X } from "../../../assets/icons"
 
@@ -118,30 +118,7 @@ export function ChatContent({
       </CloseChat>
 
       <ChatArea className="flex flex-1 flex-col text-[var(--BLACK-I)] pr-[12%]">
-        {chat?.messages.map((message) => {
-          const MESSAGE_TEXT = message.text
-          const MESSAGE_TIMESTAMP = formatDistanceToNow(
-            new Date(message.timestamp)
-          )
-
-          const isLink = hasLink(MESSAGE_TEXT)
-
-          return (
-            <div key={message.timestamp}>
-              <ChatMessage
-                size="small"
-                type="SFPROBOLD"
-                color="GREEN-V"
-                as="span"
-              >
-                {MESSAGE_TIMESTAMP} -
-              </ChatMessage>{" "}
-              <ChatMessage size="small" type="SFPROMEDIUM" as="span">
-                {isLink ? MESSAGE_TEXT_LINK(MESSAGE_TEXT) : MESSAGE_TEXT}
-              </ChatMessage>
-            </div>
-          )
-        })}
+        <ChatMessages chat={chat} />
       </ChatArea>
 
       <form

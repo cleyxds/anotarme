@@ -14,7 +14,6 @@ type ChatListProps = {
   handleSelectChat: (chatId: string) => void
   handleSendMessage: (chatId: string, message: string) => Promise<void>
   handleCloseChat: () => void
-  chatId: string
 }
 
 export const ChatListContainer = styled.div`
@@ -58,7 +57,6 @@ export function ChatList({
   chat,
   handleSendMessage,
   handleCloseChat,
-  chatId,
 }: ChatListProps) {
   const NO_CHATS = !chats?.length
 
@@ -72,7 +70,6 @@ export function ChatList({
       <MobileChatList
         chat={chat}
         handleCloseChat={handleCloseChat}
-        chatId={chatId}
         handleSendMessage={handleSendMessage}
       />
     )
@@ -142,6 +139,7 @@ const ChatImage = styled.img`
   border-radius: 9999px;
   width: 3.8125rem;
   height: 3.8125rem;
+  object-fit: cover;
 `
 
 const ChatName = styled(ChatMessage)`

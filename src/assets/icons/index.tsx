@@ -1,5 +1,6 @@
 import {
   ArrowRight,
+  ArrowLeft,
   Trash,
   UserCircle,
   DotsThreeVertical as Menu,
@@ -14,6 +15,7 @@ import Logo from "./Logo"
 export {
   Logo,
   ArrowRight,
+  ArrowLeft,
   Trash,
   UserCircle,
   Menu,

@@ -89,11 +89,12 @@ async function archiveChatById(data: DeleteChatParams & { archived: boolean }) {
   try {
     const userId = data.userId as string
     const chatId = data.chatId as string
+    const status = data.archived ? "ARCHIVED" : "ACTIVE"
 
     const chatDocRef = doc(db, CHATS_COLLECTION, `${userId}/owned/${chatId}`)
 
     await updateDoc(chatDocRef, {
-      status: "ARCHIVED",
+      status,
     })
   } catch (error: any) {
     console.error(error)

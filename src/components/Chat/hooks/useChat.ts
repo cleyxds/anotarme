@@ -6,9 +6,9 @@ import { useRecoilValue } from "recoil"
 import { UserAtom } from "../../../atoms/User"
 import { ChatsAtom } from "../../../atoms/Chats"
 
-export function useChat() {
+export function useChat(hideTitle = false) {
   const user = useRecoilValue(UserAtom)
-  const userHideChatTitle = user?.hideTitle
+  const userHideChatTitle = hideTitle ? hideTitle : user?.hideTitle
 
   const chatInputRef = useRef<HTMLInputElement>(null)
   const [chatId, setChatId] = useState("")

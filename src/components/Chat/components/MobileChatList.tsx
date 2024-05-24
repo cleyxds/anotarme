@@ -19,16 +19,15 @@ import { ChatType } from "../../../types/chat"
 type MobileChatListProps = {
   chat: ChatType
   handleCloseChat: () => void
-  chatId: string
   handleSendMessage: (chatId: string, message: string) => Promise<void>
 }
 
 export function MobileChatList({
   chat,
   handleCloseChat,
-  chatId,
   handleSendMessage,
 }: MobileChatListProps) {
+  const chatId = chat.id
   const chatInputRef = useRef<HTMLInputElement>(null)
 
   const handleSendChat = useCallback(
