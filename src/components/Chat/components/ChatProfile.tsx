@@ -14,7 +14,7 @@ import { LinkButton } from "../../LinkButton"
 import { OptimizedImage } from "../../OptimizedImage"
 import { ChatOptions } from "./ChatIndicator"
 
-import { UserCircle, Logo, Archive, Broom, Trash } from "../../../assets/icons"
+import { UserCircle, Archive, Broom, Trash } from "../../../assets/icons"
 
 export const ChatProfileImage = styled(OptimizedImage)`
   border-radius: 9999px;
@@ -48,8 +48,6 @@ export function ChatProfile({
   return (
     <ChatProfileContainer>
       <ChatProfileLink href="/">
-        <Logo />
-
         <ChatTitle type="V2">Chatao</ChatTitle>
       </ChatProfileLink>
 

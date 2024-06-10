@@ -6,8 +6,6 @@ import { ChatMessage } from "./ChatContent"
 import { MobileChatList } from "./MobileChatList"
 import { ChatListSkeleton } from "./ChatListSkeleton"
 
-import { ChatType } from "../../../types/chat"
-
 type ChatListProps = {
   chats?: ChatType[]
   chat?: ChatType

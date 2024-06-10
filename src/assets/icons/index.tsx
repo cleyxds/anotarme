@@ -8,6 +8,7 @@ import {
   Archive,
   Broom,
   UsersThree,
+  Check,
 } from "@phosphor-icons/react"
 
 import Logo from "./Logo"
@@ -23,4 +24,5 @@ export {
   Archive,
   Broom,
   UsersThree,
+  Check,
 }

@@ -3,8 +3,6 @@ import styled from "styled-components"
 import { ChatProfile } from "./ChatProfile"
 import { ChatIndicator } from "./ChatIndicator"
 
-import { ChatIdProps } from "../../../types/chat"
-
 type SelectedChatInfo = {
   name: string | undefined
   image: string | undefined
@@ -20,7 +18,7 @@ export type ChatHeaderProps = {
   handleDeleteChat?: (chatId: string) => void
   handleArchiveChat?: (chatId: string) => void
   handleClearChat?: (chatId: string) => void
-  handleAddMembers?: () => void
+  handleAddMembers?: (chatId: string, members: string[]) => void
   selectChatData?: SelectedChatInfo
   profile?: ProfileDataProps | null
 } & ChatIdProps

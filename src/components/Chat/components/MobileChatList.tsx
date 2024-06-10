@@ -14,8 +14,6 @@ import {
 
 import { hasLink } from "../utils/linkHandler"
 
-import { ChatType } from "../../../types/chat"
-
 type MobileChatListProps = {
   chat: ChatType
   handleCloseChat: () => void

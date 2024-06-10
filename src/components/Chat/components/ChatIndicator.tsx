@@ -15,10 +15,12 @@ import { AddChatMember } from "./AddChatMember"
 
 import { Broom, Archive } from "../../../assets/icons"
 
+import DEFAULT_IMAGE_SRC from "../../../assets/images/DefaultUserImage.png"
+
 type ChatIndicatorProps = {
   handleArchiveChat: (chatId: string) => void
   handleClearChat: (chatId: string) => void
-  handleAddMembers: () => void
+  handleAddMembers?: (chatId: string, members: string[]) => void
 } & ChatHeaderProps
 
 export function ChatIndicator({
@@ -35,9 +37,14 @@ export function ChatIndicator({
   const CHAT_IMAGE = selectChatData?.image
   const MEMBERS_LENGTH = selectChatData?.members?.length
 
+  const MEMBERS_TEXT = MEMBERS_LENGTH! > 1 ? "membros" : "membro"
+
   return (
     <ChatIndicatorContainer>
-      <ChatProfileImage src={CHAT_IMAGE} alt="Chat image" />
+      <ChatProfileImage
+        src={CHAT_IMAGE ?? DEFAULT_IMAGE_SRC}
+        alt="Chat image"
+      />
 
       <ChatNameContainer>
         <ChatOptions
@@ -93,7 +100,7 @@ export function ChatIndicator({
               color="GREEN-VI"
               as="h3"
             >
-              {MEMBERS_LENGTH} member ({MEMBERS_LENGTH} online)
+              {MEMBERS_LENGTH} {MEMBERS_TEXT}
             </ChatMessage>
           )}
         </ChatOptions>

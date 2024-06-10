@@ -2,7 +2,7 @@ import { useState } from "react"
 
 import styled, { keyframes } from "styled-components"
 
-const DEFAULT_IMAGE_SRC = "/DefaultUserImage.png"
+import DEFAULT_IMAGE_SRC from "../assets/images/DefaultUserImage.png"
 
 const Image = styled.img``
 

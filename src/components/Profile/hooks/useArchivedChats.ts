@@ -7,7 +7,6 @@ import { ChatsAtom } from "../../../atoms/Chats"
 
 import { db } from "../../../utils/firebase"
 import { CHATS_COLLECTION } from "../../../utils/chat"
-import { ChatType } from "../../../types/chat"
 
 export function useArchivedChats(userId: string) {
   const [archivedChats, setArchivedChats] = useRecoilState(ChatsAtom)

@@ -8,11 +8,10 @@ import {
 } from "firebase/firestore"
 
 import { db } from "./firebase"
-import { ChatType } from "../types/chat"
 
 const CHATS_COLLECTION = "chats"
 
-async function createChat(data: { userId: any; name: any }) {
+async function createChat(data: { userId: string; name: string }) {
   try {
     const userId = data.userId as string
     const chatName = data?.name
@@ -62,8 +61,10 @@ async function createMessageInChat(data: any) {
     const chatId = data.chatId
 
     const chatDocRef = doc(db, CHATS_COLLECTION, `${userId}/owned/${chatId}`)
+    const now = new Date().toISOString()
 
     await updateDoc(chatDocRef, {
+      lastUpdated: now,
       messages: arrayUnion(data),
     })
   } catch (error: any) {

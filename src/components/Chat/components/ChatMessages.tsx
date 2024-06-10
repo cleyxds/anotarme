@@ -4,8 +4,6 @@ import { ChatMessage, MESSAGE_TEXT_LINK } from "./ChatContent"
 
 import { hasLink } from "../utils/linkHandler"
 
-import { ChatType } from "../../../types/chat"
-
 type ChatMessagesProps = {
   chat: ChatType | undefined
 }

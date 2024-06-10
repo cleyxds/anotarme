@@ -2,9 +2,21 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 
 import { useSearchParams } from "react-router-dom"
 
+import { compareDesc, parseISO } from "date-fns"
+
 import { useRecoilValue } from "recoil"
 import { UserAtom } from "../../../atoms/User"
 import { ChatsAtom } from "../../../atoms/Chats"
+
+import DEFAULT_IMAGE_SRC from "../../../assets/images/DefaultUserImage.png"
+
+const sortChatsByLastUpdated = (chats: ChatType[]) => {
+  return chats.sort((a, b) => {
+    const dateA = parseISO(a.lastUpdated!)
+    const dateB = parseISO(b.lastUpdated!)
+    return compareDesc(dateA, dateB)
+  })
+}
 
 export function useChat(hideTitle = false) {
   const user = useRecoilValue(UserAtom)
@@ -31,7 +43,9 @@ export function useChat(hideTitle = false) {
     [selectedChat?.image, selectedChat?.members, selectedChat?.name]
   )
 
-  const reversedChats = useMemo(() => [...chats].reverse(), [chats])
+  const mychats = useMemo(() => {
+    return sortChatsByLastUpdated([...chats])
+  }, [chats])
 
   useEffect(() => {
     if (!PARAMS_CHAT_ID) return
@@ -103,7 +117,7 @@ export function useChat(hideTitle = false) {
 
     const USER_IMAGE = user?.profile.avatar_url
 
-    const image = USER_IMAGE ? USER_IMAGE : "/DefaultUserImage.png"
+    const image = USER_IMAGE ? USER_IMAGE : DEFAULT_IMAGE_SRC
 
     return {
       id: user?.id,
@@ -116,7 +130,7 @@ export function useChat(hideTitle = false) {
     handleSelectChat,
     handleCloseChat,
     selectedChat,
-    reversedChats,
+    mychats,
     chatInputRef,
     profile,
     selectedChatInfo,

@@ -27,10 +27,10 @@ export function Chat() {
     handleCloseChat,
     profile,
     selectedChatInfo,
-    reversedChats,
+    mychats,
   } = useChat()
 
-  const chatOpen = !!selectedChat
+  const chatopen = !!selectedChat
 
   const archiveChat = async (chatId: string) => {
     try {
@@ -51,17 +51,20 @@ export function Chat() {
         handleDeleteChat={handleDeleteChat}
         handleArchiveChat={archiveChat}
         handleClearChat={handleClearChat}
+        handleAddMembers={(chatId: string, members: string[]) =>
+          alert(JSON.stringify({ chatId, members }))
+        }
       />
 
       <ChatListContainer>
         <CreateChatForm
-          chatOpen={chatOpen}
+          chatopen={chatopen}
           handleCreateChat={handleCreateChat}
         />
 
         <ChatList
           handleSelectChat={handleSelectChat}
-          chats={reversedChats}
+          chats={mychats}
           chat={selectedChat}
           handleCloseChat={handleCloseChat}
           handleSendMessage={handleSendMessage}

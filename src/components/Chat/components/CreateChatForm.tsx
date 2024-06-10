@@ -6,7 +6,7 @@ import { Input } from "../../../ui/atoms/Input"
 import { Button } from "../../../ui/atoms/Button"
 
 type IChatOpen = {
-  chatOpen: boolean
+  chatopen: boolean
 }
 
 type CreateChatFormProps = IChatOpen & {
@@ -15,7 +15,7 @@ type CreateChatFormProps = IChatOpen & {
 
 export function CreateChatForm({
   handleCreateChat,
-  chatOpen,
+  chatopen,
 }: CreateChatFormProps) {
   const handleFormSubmit = useCallback(
     (event: React.FormEvent<HTMLFormElement>) => {
@@ -33,7 +33,7 @@ export function CreateChatForm({
   )
 
   return (
-    <CreateChatFormContainer chatOpen={chatOpen} onSubmit={handleFormSubmit}>
+    <CreateChatFormContainer chatopen={chatopen} onSubmit={handleFormSubmit}>
       <Input
         id="chat-name"
         required
@@ -60,12 +60,12 @@ const CreateChatFormContainer = styled.form<IChatOpen>`
   }
 
   @media (width < 668px) {
-    ${({ chatOpen }) => hidechat(chatOpen)}
+    ${({ chatopen }) => hidechat(chatopen)}
   }
 `
 
-const hidechat = (chatOpen: boolean) => {
-  if (chatOpen)
+const hidechat = (chatopen: boolean) => {
+  if (chatopen)
     return css`
       display: none;
     `

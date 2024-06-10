@@ -13,23 +13,25 @@ import { ArchivedChatsModal } from "./ArchivedChatsModal"
 export function Profile() {
   const { profile, userId } = useProfile()
 
-  const PROFILE_IMAGE_ALT = `${profile.name} image`
-
   return (
     <ProfileScreen>
       <Header preset="PROFILE" />
 
-      <UserProfileContainer>
-        <ChatProfileImage src={profile.image} alt={PROFILE_IMAGE_ALT} />
+      {profile && (
+        <UserProfileContainer>
+          <ChatProfileImage src={profile.image} alt={`${profile.name} Image`} />
 
-        <Text size="small" type="SUISSETINTLBOLD">
-          {profile.name}
-        </Text>
-      </UserProfileContainer>
+          <Text size="small" type="SUISSETINTLBOLD">
+            {profile.name}
+          </Text>
+        </UserProfileContainer>
+      )}
 
-      <ProfileContainer>
-        <ArchivedChatsModal userId={userId!} />
-      </ProfileContainer>
+      {profile && (
+        <ProfileContainer>
+          <ArchivedChatsModal userId={userId!} />
+        </ProfileContainer>
+      )}
 
       <Footer />
     </ProfileScreen>

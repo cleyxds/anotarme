@@ -6,8 +6,6 @@ import { useRecoilValue, useSetRecoilState } from "recoil"
 import { UserAtom } from "../../../atoms/User"
 import { ChatsAtom } from "../../../atoms/Chats"
 
-import { ChatType } from "../../../types/chat"
-
 import {
   CHATS_COLLECTION,
   archiveChatById,

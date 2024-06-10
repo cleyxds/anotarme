@@ -11,8 +11,7 @@ import { ChatMessages } from "./ChatMessages"
 import { extractLink } from "../utils/linkHandler"
 
 import { X } from "../../../assets/icons"
-
-import { ChatIdProps, ChatType } from "../../../types/chat"
+import { useEffect, useState } from "react"
 
 type ChatContentProps = {
   chatInputRef: React.RefObject<HTMLInputElement>
@@ -42,16 +41,39 @@ export const ChatMessageLink = styled(ChatMessage).attrs({
   }
 `
 
-export const MESSAGE_TEXT_LINK = (MESSAGE_TEXT: string) => (
-  <ChatMessageLink
-    as="a"
-    size="small"
-    type="SFPROMEDIUM"
-    href={extractLink(MESSAGE_TEXT)}
-  >
-    {MESSAGE_TEXT}
-  </ChatMessageLink>
-)
+const ChatImage = styled.img`
+  max-width: 200px;
+  max-height: 200px;
+  object-fit: cover;
+`
+
+export const MESSAGE_TEXT_LINK = (MESSAGE_TEXT: string) => {
+  const IMAGE_URL = MESSAGE_TEXT
+
+  const [isImage, setIsImage] = useState(false)
+
+  useEffect(() => {
+    const img = new Image()
+    img.onload = () => setIsImage(true)
+    img.onerror = () => setIsImage(false)
+    img.src = IMAGE_URL
+  }, [IMAGE_URL])
+
+  if (isImage) {
+    return <ChatImage src={IMAGE_URL} alt="Image" />
+  }
+
+  return (
+    <ChatMessageLink
+      as="a"
+      size="small"
+      type="SFPROMEDIUM"
+      href={isImage ? undefined : extractLink(MESSAGE_TEXT)}
+    >
+      {MESSAGE_TEXT}
+    </ChatMessageLink>
+  )
+}
 
 export const ChatInput = styled(Input)`
   border: none;

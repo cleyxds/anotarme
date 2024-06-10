@@ -20,8 +20,6 @@ import { archiveChatById } from "../../utils/chat"
 
 import { Archive, ArrowLeft } from "../../assets/icons"
 
-import { ChatType } from "../../types/chat"
-
 type ArchivedChatsModalProps = {
   userId: string
 }
@@ -108,7 +106,7 @@ type ArchivedChatsListProps = {
   handleCloseChat: () => void
   handleArchiveChat: (chatId: string) => void
 }
-function ArchivedChatsList({
+export function ArchivedChatsList({
   list,
   selectedChat,
   handleSelectChat,

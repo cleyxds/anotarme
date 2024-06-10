@@ -1,10 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { UserCredential } from "firebase/auth"
-import { doc, getDoc, setDoc } from "firebase/firestore"
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  setDoc,
+  where,
+} from "firebase/firestore"
 
 import { db } from "./firebase"
-
-import { User } from "../types/user"
 
 const USER_STORAGE_KEY = "user.data"
 const USERS_COLLECTION = "users"
@@ -111,10 +117,29 @@ const createUserProfile = async ({ id, ...data }: { id: string }) => {
   }
 }
 
+const getMembersToChat = async (userId: string) => {
+  const usersCollectionRef = collection(db, USERS_COLLECTION)
+
+  const queryUsersCollection = query(
+    usersCollectionRef,
+    where("id", "!=", userId)
+  )
+
+  const usersToChatDocs = await getDocs(queryUsersCollection)
+
+  const usersToChat = usersToChatDocs.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  }))
+
+  return usersToChat as User[]
+}
+
 export {
   storeUser,
   getUser,
   removeUser,
   createUserOnFirebase,
+  getMembersToChat,
   getUserFromFirebase,
 }

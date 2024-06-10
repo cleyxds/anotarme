@@ -12,8 +12,6 @@ import { GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth"
 import { auth, GoogleProvider } from "../utils/firebase"
 import { createUserOnFirebase, getUserFromFirebase } from "../utils/user"
 
-import { User } from "../types/user"
-
 const catchAuthErrors = (error: Error) => {
   const errorMessage = error.message
 

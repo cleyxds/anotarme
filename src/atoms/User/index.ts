@@ -1,7 +1,5 @@
 import { atom } from "recoil"
 
-import { User } from "../../types/user"
-
 import { getUser, removeUser, storeUser } from "../../utils/user"
 
 export const UserAtom = atom<User | null>({

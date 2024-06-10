@@ -1,33 +1,52 @@
-import { useEffect, useState } from "react"
-
-import { Dialog } from "@headlessui/react"
+import { useState } from "react"
 
 import styled from "styled-components"
 
 import { baseModal } from "../../../ui/base"
-
 import { Button } from "../../../ui/atoms/Button"
 import { Text } from "../../../ui/atoms/Text"
 
-import { Backdrop, ScrollablePanel, Wrapper } from "../../Modal/components"
+import MemberList from "./MemberList"
 
-import { UsersThree } from "../../../assets/icons"
+import { UsersThree, ArrowLeft } from "../../../assets/icons"
 
 type DeleteChatProps = {
   chatId: string
-  handleAddMembers: (chatId: string) => void
   chatName?: string
+  handleAddMembers?: (chatId: string, members: string[]) => void
 }
 
-export function AddChatMember({ chatName }: DeleteChatProps) {
+export function AddChatMember({
+  chatId,
+  chatName,
+  handleAddMembers,
+}: DeleteChatProps) {
   const [isOpen, setIsOpen] = useState(false)
+  const [selectedMembers, setSelectedMembers] = useState<string[]>([])
 
   const handleOpen = () => setIsOpen(true)
   const handleClose = () => setIsOpen(false)
 
-  useEffect(() => {}, [])
+  const handleSelectMember = (memberId: string) => {
+    setSelectedMembers((state) => {
+      if (state?.includes(memberId))
+        return state.filter((id) => id !== memberId)
 
-  const handleConfirmSelection = () => {}
+      return [...state, memberId]
+    })
+  }
+
+  const handleConfirmSelection = () => {
+    if (!selectedMembers?.length)
+      return alert("Precisa selecionar pelo menos um membro novo")
+
+    handleAddMembers?.(chatId, selectedMembers)
+  }
+
+  const memberListProps = {
+    selectedMembers,
+    handleSelectMember,
+  }
 
   return (
     <>
@@ -35,41 +54,43 @@ export function AddChatMember({ chatName }: DeleteChatProps) {
         <UsersThree /> Adicionar membro
       </Button>
 
-      <Dialog open={isOpen} onClose={handleClose} className="fixed z-50">
-        <Backdrop />
+      {isOpen && (
+        <DeleteChatContainer>
+          <CloseAddMemberButton onClick={handleClose}>
+            <ArrowLeft />
+          </CloseAddMemberButton>
 
-        <ScrollablePanel>
-          <Wrapper>
-            <Dialog.Panel>
-              <DeleteChatContainer>
-                <Text
-                  as="span"
-                  size="small"
-                  color="WHITE-I"
-                  type="SUISSETINTLBOLD"
-                >
-                  Quem você gostaria de adicionar à{" "}
-                  <Text
-                    as="span"
-                    size="small"
-                    type="SUISSETINTLBOLD"
-                    color="GREEN-XII"
-                  >
-                    {chatName}
-                  </Text>
-                </Text>
+          <Text as="span" size="small" color="WHITE-I" type="SUISSETINTLBOLD">
+            Quem você gostaria de adicionar à{" "}
+            <Text
+              as="span"
+              size="small"
+              type="SUISSETINTLBOLD"
+              color="GREEN-XII"
+            >
+              {chatName}
+            </Text>
+          </Text>
 
-                <Button onClick={handleConfirmSelection}>Confirmar</Button>
-              </DeleteChatContainer>
-            </Dialog.Panel>
-          </Wrapper>
-        </ScrollablePanel>
-      </Dialog>
+          <MemberList {...memberListProps} />
+
+          <Button onClick={handleConfirmSelection}>Confirmar</Button>
+        </DeleteChatContainer>
+      )}
     </>
   )
 }
 
-const DeleteChatContainer = styled.div`
+const DeleteChatContainer = styled.section`
   ${baseModal}
-  max-width: 420px;
+  width: min-content;
+  border: 1px solid var(--GREEN-XI);
+`
+
+const CloseAddMemberButton = styled(Button)`
+  align-self: flex-start;
+  &:hover {
+    background-color: var(--RED-I);
+    color: var(--WHITE-I);
+  }
 `

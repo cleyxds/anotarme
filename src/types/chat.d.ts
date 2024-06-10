@@ -1,8 +1,8 @@
-export type ChatType = {
+type ChatType = {
   id: string
   identifier: string
   name: string
-  user: User
+  user: ChatUser
   messages: Message[]
   members?: string[]
   createdAt: string
@@ -14,7 +14,7 @@ export type ChatType = {
   archived?: boolean
 }
 
-type User = { image: string }
+type ChatUser = { image: string }
 type Message = {
   id?: number
   text: string
