@@ -1,6 +1,6 @@
 import { formatDistanceToNow } from "date-fns"
 
-import { ChatMessage, MESSAGE_TEXT_LINK } from "./ChatContent"
+import { ChatMessage, MessageLinkText } from "./ChatContent"
 
 import { hasLink } from "../utils/linkHandler"
 
@@ -20,7 +20,7 @@ export function ChatMessages({ chat }: ChatMessagesProps) {
           {MESSAGE_TIMESTAMP} -
         </ChatMessage>{" "}
         <ChatMessage size="small" type="SFPROMEDIUM" as="span">
-          {isLink ? MESSAGE_TEXT_LINK(MESSAGE_TEXT) : MESSAGE_TEXT}
+          {isLink ? MessageLinkText(message) : MESSAGE_TEXT}
         </ChatMessage>
       </div>
     )

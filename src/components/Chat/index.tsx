@@ -24,6 +24,9 @@ export function Chat() {
     handleSelectChat,
     selectedChat,
     chatInputRef,
+    chatAreaRef,
+    chatInputMobileRef,
+    chatAreaMobileRef,
     handleCloseChat,
     profile,
     selectedChatInfo,
@@ -63,19 +66,21 @@ export function Chat() {
         />
 
         <ChatList
-          handleSelectChat={handleSelectChat}
           chats={mychats}
           chat={selectedChat}
+          chatAreaRef={chatAreaMobileRef}
+          chatInputRef={chatInputMobileRef}
+          handleSelectChat={handleSelectChat}
           handleCloseChat={handleCloseChat}
           handleSendMessage={handleSendMessage}
         />
 
         <ChatContent
           chat={selectedChat}
+          chatAreaRef={chatAreaRef}
           chatInputRef={chatInputRef}
           handleCloseChat={handleCloseChat}
           handleSendMessage={handleSendMessage}
-          chatId={chatId}
         />
       </ChatListContainer>
     </ChatScreen>

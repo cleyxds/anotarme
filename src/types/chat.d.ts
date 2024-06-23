@@ -20,6 +20,7 @@ type Message = {
   text: string
   timestamp: string
   user?: User
+  isImage?: boolean
 }
 
 type ChatIdProps = {

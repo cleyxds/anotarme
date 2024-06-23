@@ -1,5 +1,7 @@
 import styled from "styled-components"
 
+import { useMediaQuery } from "usehooks-ts"
+
 import { baseSuissetIntlRegular } from "../../../ui/base"
 
 import { ChatMessage } from "./ChatContent"
@@ -9,6 +11,8 @@ import { ChatListSkeleton } from "./ChatListSkeleton"
 type ChatListProps = {
   chats?: ChatType[]
   chat?: ChatType
+  chatInputRef: React.RefObject<HTMLInputElement>
+  chatAreaRef: React.RefObject<HTMLDivElement>
   handleSelectChat: (chatId: string) => void
   handleSendMessage: (chatId: string, message: string) => Promise<void>
   handleCloseChat: () => void
@@ -50,23 +54,28 @@ export const ChatListContainer = styled.div`
 `
 
 export function ChatList({
-  chats,
-  handleSelectChat,
   chat,
+  chats,
+  chatAreaRef,
+  chatInputRef,
+  handleSelectChat,
   handleSendMessage,
   handleCloseChat,
 }: ChatListProps) {
   const NO_CHATS = !chats?.length
 
+  const isMobile = useMediaQuery("(width <= 668px)")
+
   if (NO_CHATS) return <ChatListSkeleton />
 
   const foundMessages = !!chat
-  const isMobile = window.innerWidth <= 668
 
   if (foundMessages && isMobile) {
     return (
       <MobileChatList
         chat={chat}
+        chatAreaRef={chatAreaRef}
+        chatInputRef={chatInputRef}
         handleCloseChat={handleCloseChat}
         handleSendMessage={handleSendMessage}
       />

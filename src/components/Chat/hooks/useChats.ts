@@ -22,14 +22,31 @@ export function useChats() {
 
   const handleSendMessage = useCallback(
     async (chatId: string, message: string) => {
-      const messageSent = {
-        chatId,
-        text: message,
-        userId: user?.id,
-        timestamp: new Date().toISOString(),
+      const image = new Image()
+      image.src = message
+
+      image.onload = () => {
+        const imageMessageSent = {
+          chatId,
+          text: message,
+          userId: user?.id,
+          timestamp: new Date().toISOString(),
+          isImage: true,
+        }
+
+        createMessageInChat(imageMessageSent)
       }
 
-      createMessageInChat(messageSent)
+      image.onerror = () => {
+        const messageSent = {
+          chatId,
+          text: message,
+          userId: user?.id,
+          timestamp: new Date().toISOString(),
+        }
+
+        createMessageInChat(messageSent)
+      }
     },
     [user?.id]
   )

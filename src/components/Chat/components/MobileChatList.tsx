@@ -1,4 +1,4 @@
-import { useCallback, useRef } from "react"
+import { useCallback } from "react"
 
 import styled from "styled-components"
 
@@ -8,7 +8,7 @@ import {
   ChatInput,
   ChatMessage,
   CloseChat,
-  MESSAGE_TEXT_LINK,
+  MessageLinkText,
   SendButton,
 } from "./ChatContent"
 
@@ -16,17 +16,20 @@ import { hasLink } from "../utils/linkHandler"
 
 type MobileChatListProps = {
   chat: ChatType
+  chatInputRef: React.RefObject<HTMLInputElement>
+  chatAreaRef: React.RefObject<HTMLDivElement>
   handleCloseChat: () => void
   handleSendMessage: (chatId: string, message: string) => Promise<void>
 }
 
 export function MobileChatList({
   chat,
+  chatInputRef,
+  chatAreaRef,
   handleCloseChat,
   handleSendMessage,
 }: MobileChatListProps) {
   const chatId = chat.id
-  const chatInputRef = useRef<HTMLInputElement>(null)
 
   const handleSendChat = useCallback(
     async (event: React.FormEvent<HTMLFormElement>) => {
@@ -51,7 +54,10 @@ export function MobileChatList({
     <ContentContainer>
       <CloseChat onClick={handleCloseChat}>Fechar</CloseChat>
 
-      <div className="flex flex-1 flex-col text-[var(--BLACK-I)] pr-[12%] mb-4 overflow-y-scroll">
+      <div
+        ref={chatAreaRef}
+        className="flex flex-1 flex-col text-[var(--BLACK-I)] pr-[12%] mb-4 overflow-y-scroll"
+      >
         {chat?.messages.map((message) => {
           const MESSAGE_TEXT = message.text
           const MESSAGE_TIMESTAMP = formatDistanceToNow(
@@ -71,7 +77,7 @@ export function MobileChatList({
                 {MESSAGE_TIMESTAMP} -
               </ChatMessage>{" "}
               <ChatMessage size="small" type="SFPROMEDIUM" as="span">
-                {isLink ? MESSAGE_TEXT_LINK(MESSAGE_TEXT) : MESSAGE_TEXT}
+                {isLink ? MessageLinkText(message) : MESSAGE_TEXT}
               </ChatMessage>
             </div>
           )

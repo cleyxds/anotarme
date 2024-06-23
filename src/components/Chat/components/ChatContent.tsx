@@ -11,10 +11,10 @@ import { ChatMessages } from "./ChatMessages"
 import { extractLink } from "../utils/linkHandler"
 
 import { X } from "../../../assets/icons"
-import { useEffect, useState } from "react"
 
 type ChatContentProps = {
   chatInputRef: React.RefObject<HTMLInputElement>
+  chatAreaRef: React.RefObject<HTMLDivElement>
   chat?: ChatType
   handleCloseChat: () => void
   handleSendMessage: (chatId: string, message: string) => Promise<void>
@@ -23,6 +23,7 @@ type ChatContentProps = {
 export const ChatMessage = styled(Text)`
   overflow-wrap: anywhere;
 `
+
 export const ChatMessageLink = styled(ChatMessage).attrs({
   target: "_blank",
   rel: "noopener noreferrer",
@@ -44,23 +45,15 @@ export const ChatMessageLink = styled(ChatMessage).attrs({
 const ChatImage = styled.img`
   max-width: 200px;
   max-height: 200px;
+  border: 1px solid var(--GREEN-IX);
   object-fit: cover;
 `
 
-export const MESSAGE_TEXT_LINK = (MESSAGE_TEXT: string) => {
-  const IMAGE_URL = MESSAGE_TEXT
+export const MessageLinkText = (message: Message) => {
+  const MESSAGE_TEXT = message.text
 
-  const [isImage, setIsImage] = useState(false)
-
-  useEffect(() => {
-    const img = new Image()
-    img.onload = () => setIsImage(true)
-    img.onerror = () => setIsImage(false)
-    img.src = IMAGE_URL
-  }, [IMAGE_URL])
-
-  if (isImage) {
-    return <ChatImage src={IMAGE_URL} alt="Image" />
+  if (message.isImage) {
+    return <ChatImage src={MESSAGE_TEXT} alt="Image" />
   }
 
   return (
@@ -68,7 +61,7 @@ export const MESSAGE_TEXT_LINK = (MESSAGE_TEXT: string) => {
       as="a"
       size="small"
       type="SFPROMEDIUM"
-      href={isImage ? undefined : extractLink(MESSAGE_TEXT)}
+      href={extractLink(MESSAGE_TEXT)}
     >
       {MESSAGE_TEXT}
     </ChatMessageLink>
@@ -104,10 +97,12 @@ export const CloseChat = styled(Button)`
 export function ChatContent({
   chat,
   chatInputRef,
+  chatAreaRef,
   handleCloseChat,
   handleSendMessage,
-  chatId,
 }: ChatContentProps) {
+  const chatId = chat?.id
+
   async function handleSendChat(event: React.FormEvent<HTMLFormElement>) {
     try {
       event.preventDefault()
@@ -139,7 +134,10 @@ export function ChatContent({
         Fechar
       </CloseChat>
 
-      <ChatArea className="flex flex-1 flex-col text-[var(--BLACK-I)] pr-[12%]">
+      <ChatArea
+        ref={chatAreaRef}
+        className="flex flex-1 flex-col text-[var(--BLACK-I)] pr-[12%]"
+      >
         <ChatMessages chat={chat} />
       </ChatArea>
 

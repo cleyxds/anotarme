@@ -2,11 +2,11 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 
 import { useSearchParams } from "react-router-dom"
 
-import { compareDesc, parseISO } from "date-fns"
-
 import { useRecoilValue } from "recoil"
 import { UserAtom } from "../../../atoms/User"
 import { ChatsAtom } from "../../../atoms/Chats"
+
+import { compareDesc, parseISO } from "date-fns"
 
 import DEFAULT_IMAGE_SRC from "../../../assets/images/DefaultUserImage.png"
 
@@ -23,6 +23,9 @@ export function useChat(hideTitle = false) {
   const userHideChatTitle = hideTitle ? hideTitle : user?.hideTitle
 
   const chatInputRef = useRef<HTMLInputElement>(null)
+  const chatAreaRef = useRef<HTMLDivElement>(null)
+  const chatInputMobileRef = useRef<HTMLInputElement>(null)
+  const chatAreaMobileRef = useRef<HTMLDivElement>(null)
   const [chatId, setChatId] = useState("")
   const chats = useRecoilValue(ChatsAtom)
 
@@ -52,8 +55,17 @@ export function useChat(hideTitle = false) {
 
     handleSelectChat(PARAMS_CHAT_ID)
 
+    if (chatAreaRef.current || chatAreaMobileRef.current) {
+      chatAreaRef.current?.scrollTo(0, chatAreaRef.current?.scrollHeight)
+
+      chatAreaMobileRef.current?.scrollTo(
+        0,
+        chatAreaMobileRef.current?.scrollHeight
+      )
+    }
+
     // No need to update the dependency array
-  }, [PARAMS_CHAT_ID])
+  }, [PARAMS_CHAT_ID, chatAreaRef.current])
 
   useEffect(() => {
     focusInput()
@@ -132,6 +144,9 @@ export function useChat(hideTitle = false) {
     selectedChat,
     mychats,
     chatInputRef,
+    chatInputMobileRef,
+    chatAreaRef,
+    chatAreaMobileRef,
     profile,
     selectedChatInfo,
   }
