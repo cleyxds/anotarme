@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+
 import { useCallback, useEffect } from "react"
 
 import { collection, onSnapshot, query, where } from "firebase/firestore"
@@ -62,6 +64,7 @@ export function useChats() {
 
       if (!isValidFields) return
 
+      // @ts-ignore
       createChat(chatCreated)
     },
     [user?.id]

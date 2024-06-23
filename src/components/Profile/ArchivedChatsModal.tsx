@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 
 import styled from "styled-components"
 
@@ -113,6 +113,9 @@ export function ArchivedChatsList({
   handleArchiveChat,
   handleCloseChat,
 }: ArchivedChatsListProps) {
+  const chatAreaRef = useRef<HTMLDivElement>(null)
+  const chatInputRef = useRef<HTMLInputElement>(null)
+
   useEffect(() => {
     return () => handleCloseChat()
   }, [])
@@ -176,6 +179,8 @@ export function ArchivedChatsList({
     <ChatList
       chat={selectedChat}
       chats={list}
+      chatAreaRef={chatAreaRef}
+      chatInputRef={chatInputRef}
       handleSelectChat={handleSelectChat}
       handleCloseChat={() => {}}
       handleSendMessage={async () => {}}
